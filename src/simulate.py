@@ -1,4 +1,6 @@
-''' simulates the clock '''
+''' 
+simulates the clock 
+'''
 
 class Event():
 	def __init__(self, time, func, args):
@@ -14,7 +16,7 @@ class Clock():
 		# list of all scheduled events, each event is a tuple of clock value for when event completes, function, and args
 		self.events = []
 
-	def run(self, func, args, run_time=0, end_time=None):
+	def schedule(self, func, args, run_time=0, end_time=None):
 		time = run_time + self.tick
 		if end_time != None:
 			time = end_time
@@ -31,7 +33,8 @@ class Clock():
 	def tick_clock(self):
 		for e in self.events:
 			if e.scheduled_time == self.tick:
-				e.func(e.args)
+				print(self.tick, end=": ")
+				e.target_function(*e.function_args)
 				self.events.remove(e)
 			if e.scheduled_time > self.tick:
 				break

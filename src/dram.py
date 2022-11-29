@@ -69,7 +69,8 @@ class Cell():
 
 class DRAM():
 	"""DRAM simulation based on DDR4"""
-	def __init__(self, num_banks, num_columns, num_rows):
+	def __init__(self, clock, num_banks, num_columns, num_rows):
+		self.clock = clock
 		self.num_banks = num_banks
 		self.num_columns = num_columns
 		self.num_rows = num_rows
@@ -77,7 +78,7 @@ class DRAM():
 		self.cells = [[[Cell() for k in xrange(num_columns)] for j in xrange(num_rows)] for i in xrange(num_banks)]
 		self.row_buffers = [(None, 0, 0) for k in xrange(num_banks)] # (Row number, activation time, activation time interval)
 
-	def activate(bank, row):
+	def activate(self, bank, row):
 		''' opens a row: transfers a row from bank to its row buffer'''
 		# update row buffer for bank
 		self.row_buffers[bank][0] = row
@@ -85,7 +86,7 @@ class DRAM():
 		self.row_buffers[bank][1] = self.clock.get_clock()
 		return
 
-	def read(bank, column):
+	def read(self, bank, column):
 		''' read column from bank's row buffer'''
 		row = self.row_buffers[bank][0]
 		# read cell
@@ -93,7 +94,7 @@ class DRAM():
 
 		return value
 
-	def write(bank, column, value):
+	def write(self, bank, column, value):
 		''' write value to column of row bank'''
 		row = self.row_buffers[bank][0]
 		# write cell
@@ -126,7 +127,7 @@ class DRAM():
 		self.row_buffers[bank] = (None, 0, 0)
 		return
 
-	def refresh(row):
+	def refresh(self, row):
 		''' refresh all bank's row by activating and precharging it'''
 		# activate and precharge row in all banks
 		for bank in range(num_banks):
