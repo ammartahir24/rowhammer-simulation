@@ -29,3 +29,10 @@ read_time = 15
 write_time = 11.25
 precharge_time = 15
 
+""" DRAM Parameters """
+banks = 8
+rows = 2**16
+columns = 2**12
+cells = 8 #bits
+
+bus_size = 8 #bytes
