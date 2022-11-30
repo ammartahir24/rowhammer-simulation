@@ -21,3 +21,11 @@ y = 0 if x is even
 """
 
 a = 0.45
+
+""" DRAM timing parameters (ns) """
+
+activation_time = 37.5
+read_time = 15
+write_time = 11.25
+precharge_time = 15
+

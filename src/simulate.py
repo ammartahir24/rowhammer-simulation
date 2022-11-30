@@ -34,6 +34,8 @@ class Clock():
 		for e in self.events:
 			if e.scheduled_time == self.tick:
 				print(self.tick, end=": ")
+				print(e.target_function)
+				print(e.function_args)
 				e.target_function(*e.function_args)
 				self.events.remove(e)
 			if e.scheduled_time > self.tick:
