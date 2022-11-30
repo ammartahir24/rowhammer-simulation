@@ -34,7 +34,16 @@ class Clock():
 		for e in self.events:
 			if e.scheduled_time == self.tick:
 				print(self.tick, end=": ")
-				e.target_function(*e.function_args)
+				if e.function_args == None:
+					e.target_function()
+				else:
+					try: 
+						if len(e.function_args) > 1:
+							e.target_function(*e.function_args)
+						else:
+							e.target_function(e.function_args)
+					except:
+						e.target_function(e.function_args)
 				self.events.remove(e)
 			if e.scheduled_time > self.tick:
 				break

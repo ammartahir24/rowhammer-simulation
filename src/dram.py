@@ -16,6 +16,7 @@ class DRAM():
 	def read(self, bank, column):
 		''' read column from bank's row buffer'''
 		value = None
+		print(bank, column)
 		return value
 
 	def write(self, bank, column, value):
