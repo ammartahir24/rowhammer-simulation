@@ -45,15 +45,11 @@ class Cell():
 	def read(self):
 		""" return value based on stored voltage """
 		# update cell's leakage  
-		self.update_t_N()
-		self.update_V_s()
 		value = self.get_value()
 		return value
 	def write(self, value):
 		""" write voltage to cell """
 		# update cell's leakage
-		self.update_t_N()
-		self.update_V_s()
 		self.set_value(value)
 		return
 	def get_value(self):
@@ -87,6 +83,10 @@ class DRAM():
 		print("Activating bank, row: " + str(bank) + ", " + str(row))
 		# update activation time as current time
 		self.row_buffers[bank][1] = self.Clock.get_clock()
+		#TODO switch updates to here instead of reads/writes
+		for column in self.num_columns:
+			self.cells[bank][row][column].update_t_N()
+			self.cells[bank][row][column].update_V_s()
 		return
 
 	def read(self, bank, column):
