@@ -10,19 +10,26 @@ class Cell():
 	def __init__(self, clock):
 		self.Clock = clock
 		self.V_s = 0
-		self.N_att = 0 # activations from adjacent aggressor row
+		self.N_att = 1 # activations from adjacent aggressor row
 		self.t_N = 0   # Interval between the successive accessing
 		self.B_tot = 0     # aggressive activation interval
 		self.A_tot = 0     # normal activation interval
 		self.last_refresh = 0 # time of last refresh or activation
 	def update_V_s(self):
 		"""update voltage of storage capacitor, includes normal leakage and leakage due to aggressor activations"""
-		B = self.B_tot / self.N_att
-		self.A_tot = self.t_i - self.B_tot
-		A = self.A_tot / (self.N_att+1)
+		print("Aggressor toggles: " + str(self.N_att))
+		B = self.B_tot / (self.N_att)
+		self.A_tot = self.t_N - self.B_tot
+		A = self.A_tot / (self.N_att)
 		D = self.B_tot / (self.A_tot + self.B_tot)
-		t_i = self.t_N / N_att
-		self.V_s = cfg.VDD * math.exp(-(self.N_att/cfg.C_S)*((1/cfg.R_L)+(D/cfg.R_SW))*self.t_i) + ((cfg.VDD*cfg.R_L)/(2*(cfg.R_L+cfg.R_SW)) * (1 - math.exp(-(self.N_att/cfg.C_S)*((1/cfg.R_L)+(1/cfg.R_SW))*D*self.t_i)))
+		t_i = self.t_N / (self.N_att)
+		#print(math.exp(-(self.N_att/cfg.C_S)*((1/cfg.R_L)+(D/cfg.R_SW))*t_i))
+		#print((self.N_att/cfg.C_S)*((1/cfg.R_L)+(D/cfg.R_SW))*t_i)
+		#print((self.N_att/cfg.C_S))
+		#print(((1/cfg.R_L)+(D/cfg.R_SW))*t_i)
+		#print(((cfg.VDD*cfg.R_L)/(2*(cfg.R_L+cfg.R_SW)) * (1 - math.exp(-(self.N_att/cfg.C_S)*((1/cfg.R_L)+(1/cfg.R_SW))*D*t_i))))
+
+		self.V_s = cfg.VDD * math.exp(-(self.N_att/cfg.C_S)*((1/cfg.R_L)+(D/cfg.R_SW))*t_i) + ((cfg.VDD*cfg.R_L)/(2*(cfg.R_L+cfg.R_SW)) * (1 - math.exp(-(self.N_att/cfg.C_S)*((1/cfg.R_L)+(1/cfg.R_SW))*D*t_i)))
 		# TODO might need to change to update voltage on every access instead of all at once
 		return
 	def update_t_N(self):
@@ -32,7 +39,7 @@ class Cell():
 	def refresh(self):
 		""" restore capacitor voltage """
 		# reset aggressor activations
-		self.N_att = 0
+		self.N_att = 1
 		# reset time intervals
 		self.t_N = 0
 		self.B_tot = 0
@@ -54,13 +61,14 @@ class Cell():
 		return
 	def get_value(self):
 		""" return value interpreted by SA """
-		if (self.V_s >= VDD/2 * C_S):
+		print("Charge stored = "+str(self.V_s))
+		if (self.V_s >= cfg.VDD/2):
 			return 1
 		else:
 			return 0
 	def set_value(self, value):
 		if (value == 1):
-			self.V_s = VDD
+			self.V_s = cfg.VDD
 		else: 
 			self.V_s = 0
 
@@ -84,7 +92,7 @@ class DRAM():
 		# update activation time as current time
 		self.row_buffers[bank][1] = self.Clock.get_clock()
 		#TODO switch updates to here instead of reads/writes
-		for column in self.num_columns:
+		for column in range(self.num_columns):
 			self.cells[bank][row][column].update_t_N()
 			self.cells[bank][row][column].update_V_s()
 		return
@@ -120,19 +128,22 @@ class DRAM():
 		# update aggressor activation time + aggressor activation toggle for n adjacent cells with some probability
 		for i in range(-7, 7):
 			row_vict = row + i
-			if (i!=0 and row_vict >= 0):
-				random_num = random.randrange(0, 100) 
+			if (i!=0 and row_vict >= 0 and row_vict < self.num_rows):
+				
 				row_dist = row_vict - row
 				if (row_dist%2 == 1):
-					probability_toggle = cfg.a*math.exp(-(row_dist))
+					probability_toggle = cfg.a*math.exp(-(abs(row_dist)))
 				else: 
 					probability_toggle = 0
-				if (random_num < probability_toggle*100):
-					for column in range(self.num_columns):
+				#print("Toggle prob: " + str(probability_toggle), " row: " + str(row_vict))
+				for column in range(self.num_columns):
+					random_num = random.randrange(0, 100) 
+					if (random_num < probability_toggle*100):
+						#print("Toggled with probability " + str(random_num))
 						self.cells[bank][row_vict][column].N_att += 1
 						self.cells[bank][row_vict][column].B_tot = self.cells[bank][row_vict][column].B_tot + self.row_buffers[bank][2] 
 		# remove row buffer from bank
-		self.row_buffers[bank] = (None, 0, 0)
+		self.row_buffers[bank] = [None, 0, 0]
 		return
 
 	def refresh(self, row):

@@ -3,7 +3,7 @@ from simulate import Clock
 from dram import DRAM
 
 clock = Clock()
-memory = DRAM(clock, 2, 20, 20)
+memory = DRAM(clock, 2, 10, 10)
 
 # start events here e.g. rowhammer code execution or row activation by queuing smth in clock
 #clock.schedule(memory.activate, (1,1), run_time=10)
@@ -20,6 +20,8 @@ for j in range(10):
 	print(time, "precharge", j)
 	clock.schedule(memory.precharge, (1), run_time=time)
 
+time += 70000000
+
 for j in range(10):
 	time += cfg.activation_time
 	print(time, "activate", j)
@@ -32,7 +34,7 @@ for j in range(10):
 	print(time, "precharge", j)
 	clock.schedule(memory.precharge, (1), run_time=time)
 
-simulation_time = 1000000
+simulation_time = 100000000
 
 print("Start Clock")
 for _ in range(simulation_time):
