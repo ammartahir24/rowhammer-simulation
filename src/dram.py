@@ -94,7 +94,7 @@ class DRAM():
 		row = self.row_buffers[bank][0]
 		# read cell
 		value = self.cells[bank][row][column].read()
-		print("Cell " + str(bank) + " " + str(column) + " = " + str(value))
+		print("Reading cell " + str(bank) + " " + str(column) + " = " + str(value))
 		return value
 
 	def write(self, bank, column, value):
@@ -102,12 +102,15 @@ class DRAM():
 		row = self.row_buffers[bank][0]
 		# write cell
 		self.cells[bank][row][column].write(value)
+		print("Write cell " + str(bank) + " " + str(column) + " = " + str(value))
 		return
 
-	def precharge(self, bank, dummy):
+	def precharge(self, bank):
 		''' write back row buffer to appropriate row of the bank'''
+		
 		# restore cells in row buffer to full charge for current state (refresh cells)
 		row = self.row_buffers[bank][0]
+		print("Precharging bank " + str(bank) + ", row " + str(row))
 		#print(self.row_buffers[bank][0])
 		for column in range(self.num_columns):
 			#print(str(bank)+str(row)+str(column))
@@ -135,6 +138,7 @@ class DRAM():
 	def refresh(self, row):
 		''' refresh all bank's row by activating and precharging it'''
 		# activate and precharge row in all banks
+		print("Refreshing row " + str(row))
 		for bank in range(num_banks):
 			self.activate(bank, row)
 			self.precharge(bank)
