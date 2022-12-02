@@ -30,6 +30,9 @@ class Clock():
 	def get_clock(self):
 		return self.tick
 
+	def get_seconds(self):
+		return self.tick * (10**-9)
+
 	def tick_clock(self):
 		for e in self.events:
 			if e.scheduled_time <= self.tick:

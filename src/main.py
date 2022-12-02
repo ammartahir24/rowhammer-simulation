@@ -20,7 +20,12 @@ for j in range(10):
 	print(time, "precharge", j)
 	clock.schedule(memory.precharge, (1), run_time=time)
 
-time += 70000000
+time += .05 * (10**9)
+for j in range(10):
+	time+= cfg.activation_time+cfg.precharge_time
+	clock.schedule(memory.refresh, (j), run_time=time)
+time += .05 * (10**9)
+
 
 for j in range(10):
 	time += cfg.activation_time
@@ -28,13 +33,13 @@ for j in range(10):
 	clock.schedule(memory.activate, (1,j), run_time=time)
 	for i in range(10):
 		time += cfg.read_time
-		print(time, "write", i)
+		print(time, "read", i)
 		clock.schedule(memory.read, (1, i), run_time=time)
 	time += cfg.precharge_time
 	print(time, "precharge", j)
 	clock.schedule(memory.precharge, (1), run_time=time)
 
-simulation_time = 100000000
+simulation_time = 200000000
 
 print("Start Clock")
 for _ in range(simulation_time):
