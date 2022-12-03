@@ -105,6 +105,9 @@ class DRAM():
 			self.cells[bank][row][column].update_V_s_leakage()
 		return
 
+	def size_bytes(self):
+		return self.num_banks*self.num_columns*self.num_rows / 8
+
 	def read(self, bank, column):
 		''' read column from bank's row buffer'''
 		row = self.row_buffers[bank][0]

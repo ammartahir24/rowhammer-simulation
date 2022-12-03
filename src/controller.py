@@ -74,11 +74,15 @@ class MemoryController():
 		self.configs = configs
 		self.clock = clock
 		self.dram = DRAM(self.clock, config.banks, config.rows, config.columns)
+		self.memory_mapping = {}
+		self.used_memory = []
+		self.memory_size = self.dram.size_bytes()
 		self.commands_queue = []
 		self.scheduled_requests = []
 		self.bus = MemoryBus(self.configs.bus_size, self.dram, self.clock)
 		self.opened_rows = [0 for _ in size(self.configs.banks)]
 		self.bank_status = [0 for _ in size(self.configs.banks)]
+		self.clock.schedule(self.operate, None, run_time=1)
 
 	def fcfs(self):
 		# first come first serve scheduler
@@ -96,11 +100,11 @@ class MemoryController():
 			for req in self.scheduled_requests:
 				if req.op_running == False:
 					if req.commandseq[0][0] == "read" and self.bus.start_op(req):
-						return self.bus.fetch, (req, req.read_callback)
+						return self.bus.fetch, (req, req.read_callback), self.configs.read_time
 					elif req.commandseq[0][0] == "write" and self.bus.start_op(req):
-						return self.bus.write, (req, req.read_callback)
+						return self.bus.write, (req, req.read_callback), self.configs.write_time
 					elif req.commandseq[0][0] == "activate":
-						return self.bus.open_row, (req, req.activate_callback)
+						return self.bus.open_row, (req, req.activate_callback), self.configs.activation_time
 
 		if len(self.commands_queue) > 0:
 			req = self.commands_queue[0]
@@ -109,12 +113,12 @@ class MemoryController():
 				self.scheduled_requests.append(req)
 				self.commands_queue.remove(req)
 				self.bank_status[req.bank] += 1
-				return self.bus_fetch, (req, req.read_callback)
+				return self.bus.fetch, (req, req.read_callback), self.configs.read_time
 			elif self.bank_status[req.bank] < 1:
 				self.scheduled_requests.append(req)
 				self.commands_queue.remove(req)
 				self.bank_status[req.bank] += 1
-				return self.close_row, (req, req.precharge_callback)
+				return self.bus.close_row, (req, req.precharge_callback), self.configs.precharge_time
 		return None
 
 
@@ -131,7 +135,8 @@ class MemoryController():
 
 	def malloc(self, user, size):
 		# allocate memory
-		return
+		address = 0x00000000
+		return address
 
 	def translate_address(self, address):
 		# 16 bits for row, 3 bits for bank, 12 bits for column
