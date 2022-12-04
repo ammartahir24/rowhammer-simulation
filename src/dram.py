@@ -90,6 +90,7 @@ class DRAM():
 		self.num_cells = num_banks*num_columns*num_rows
 		self.cells = [[[Cell(self.Clock) for k in range(num_columns)] for j in range(num_rows)] for i in range(num_banks)]
 		self.row_buffers = [[None, 0, 0] for k in range(num_banks)] # (Row number, activation time, activation time interval)
+		print("DRAM __init__")
 
 	def activate(self, bank, row):
 		''' opens a row: transfers a row from bank to its row buffer'''

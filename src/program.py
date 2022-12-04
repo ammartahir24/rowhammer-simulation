@@ -14,7 +14,7 @@ class Event():
 		self.i = 0
 
 	def next(self, tick):
-		if self.start + self.i*self.period <= self.tick:
+		if self.start + self.i*self.period <= tick:
 			self.i += 1
 			return self.func, self.args
 		return None, None
@@ -34,8 +34,12 @@ class Program():
 
 	def operate(self):
 		for e in self.events:
-			func, args = e.next(clock.get_clock())
-			self.clock.schedule(func, args, run_time=1)
+			func, args = e.next(self.clock.get_clock())
+			if func != None:
+				print("Program for", self.user, ":", func, args)
+				self.clock.schedule(func, args, run_time=1)
+			if e.i >= e.repeat:
+				self.events.remove(e)
 		self.clock.schedule(self.operate, None, run_time=1)
 
 	def read(self, address, callback):

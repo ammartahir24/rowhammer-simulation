@@ -15,6 +15,7 @@ class Clock():
 		self.tick = 0
 		# list of all scheduled events, each event is a tuple of clock value for when event completes, function, and args
 		self.events = []
+		print("Clock __init__")
 
 	def schedule(self, func, args, run_time=0, end_time=None):
 		time = run_time + self.tick
@@ -37,18 +38,19 @@ class Clock():
 		for e in self.events:
 			if e.scheduled_time <= self.tick:
 				print(self.tick, end=": ")
-				print(e.target_function)
+				print(e.target_function, e.function_args)
 				if e.function_args == None:
 					e.target_function()
 				else:
-					try: 
-						if len(e.function_args) > 1:
-							e.target_function(*e.function_args)
-						else:
-							e.target_function(e.function_args)
-					except:
+					if len(e.function_args) > 1:
+						e.target_function(*e.function_args)
+					else:
 						e.target_function(e.function_args)
 				self.events.remove(e)
 			if e.scheduled_time > self.tick:
 				break
 		self.tick += 1
+
+	def simulate(self, simul_time):
+		for i in range(simul_time):
+			self.tick_clock()
