@@ -37,8 +37,8 @@ class Clock():
 	def tick_clock(self):
 		for e in self.events:
 			if e.scheduled_time <= self.tick:
-				print(self.tick, end=": ")
-				print(e.target_function, e.function_args)
+				# print(self.tick, end=": ")
+				# print(e.target_function, e.function_args)
 				if e.function_args == None:
 					e.target_function()
 				else:

@@ -10,21 +10,32 @@ memory = MemoryController(cfg, clock)
 def p1_read(commandseq, value):
 	print("read callback", commandseq, value)
 
+
+# victim address: pick 3rd row
+# row:00000011 bank:000 col:000001 = 601
+v_addr = 0x0000601
+
+# aggressor addresses: pick 2nd and 4th row
+# row:00000010 bank:000 col:000001 = 401
+ag_addr1 = 0x0000401
+# row:00000100 bank:000 col:000001 = 801
+ag_addr2 = 0x0000801
 # victim program
 print("Start")
 program1 = Program(clock, memory, 1)
-program1.cmd(program1.write, (0x0000001, 0), 12)
-program1.cmd(program1.read, (0x0000001, p1_read), 50)
-program1.cmd(program1.read, (0x0000001, p1_read), 299900)
+program1.cmd(program1.write, (v_addr, 25), 10)
+program1.cmd(program1.read, (v_addr, p1_read), 50)
 
 #aggressor program
 program2 = Program(clock, memory, 2)
-program1.cmd(program1.write, (0x0000000, 255), 11)
-program1.cmd(program1.write, (0x0000002, 128), 10)
-program2.cmd(program2.read, (0x0000000, p1_read), 55, period = 20, repeat = 10000)
-program2.cmd(program2.read, (0x0000002, p1_read), 50, period = 20, repeat = 10000)
+program2.cmd(program2.write, (ag_addr1, 255), 11)
+program2.cmd(program2.write, (ag_addr2, 128), 10)
+program2.cmd(program2.read, (ag_addr1, None), 55, period = 20, repeat = 2)
+program2.cmd(program2.read, (ag_addr2, None), 50, period = 20, repeat = 2)
 
-clock.simulate(300000)
+program1.cmd(program1.read, (v_addr, p1_read), 2900)
+
+clock.simulate(3000)
 
 
 # # start events here e.g. rowhammer code execution or row activation by queuing smth in clock

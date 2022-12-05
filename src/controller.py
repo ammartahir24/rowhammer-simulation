@@ -108,33 +108,37 @@ class MemoryController():
 		if len(self.commands_queue) == 0 and len(self.scheduled_requests) == 0:
 			return None
 
-		for req in self.scheduled_requests:
-			if len(req.commandseq) == 0:
-				self.bank_status[req.bank] -= 1
-				self.scheduled_requests.remove(req)
+		# for req in self.scheduled_requests:
+		# 	if len(req.commandseq) == 0:
+		# 		self.bank_status[req.bank] -= 1
+		# 		self.scheduled_requests.remove(req)
 
 		if len(self.scheduled_requests) > 0:
 			for req in self.scheduled_requests:
 				if req.op_running == False:
 					if req.commandseq[0][0] == "read" and self.bus.start_op(req):
-						req.next_op_time += self.configs.read_time
+						req.next_op_time = self.configs.read_time
 						req.op_running = True
 						del req.commandseq[0]
 						return self.bus.fetch, (req, req.callback), req.next_op_time 
 					elif req.commandseq[0][0] == "write" and self.bus.start_op(req):
-						req.next_op_time += self.configs.write_time
+						req.next_op_time = self.configs.write_time
 						req.op_running = True
 						del req.commandseq[0]
 						return self.bus.write, (req, None), req.next_op_time
 					elif req.commandseq[0][0] == "activate":
-						req.next_op_time += self.configs.activation_time
+						req.next_op_time = self.configs.activation_time
 						req.op_running = True
 						del req.commandseq[0]
 						return self.bus.open_row, (req, None), req.next_op_time
+					elif req.commandseq[0][0] == "precharge":
+						del req.commandseq[0]
+						self.bank_status[req.bank] -= 1
+						self.scheduled_requests.remove(req)
 
 		if len(self.commands_queue) > 0:
 			req = self.commands_queue[0]
-			print(req.commandseq)
+			# print(req.commandseq)
 			if req.row == self.opened_rows[req.bank] and self.bus.start_op(req):
 				print("row is open", req.commandseq)
 				if req.commandseq[0][0] == "activate":
@@ -144,7 +148,7 @@ class MemoryController():
 					self.scheduled_requests.append(req)
 					self.commands_queue.remove(req)
 					self.bank_status[req.bank] += 1
-					req.next_op_time += self.configs.read_time
+					req.next_op_time = self.configs.read_time
 					req.op_running = True
 					return self.bus.fetch, (req, req.callback), req.next_op_time
 				elif req.commandseq[0][0] == "write":
@@ -152,15 +156,15 @@ class MemoryController():
 					self.scheduled_requests.append(req)
 					self.commands_queue.remove(req)
 					self.bank_status[req.bank] += 1
-					req.next_op_time += self.configs.write_time
+					req.next_op_time = self.configs.write_time
 					req.op_running = True
 					return self.bus.write, (req, None), req.next_op_time
 			elif self.bank_status[req.bank] < 1:
-				print("row is closed", req.commandseq)
+				print("row is closed", req.commandseq, self.bank_status[req.bank])
 				self.scheduled_requests.append(req)
 				self.commands_queue.remove(req)
 				self.bank_status[req.bank] += 1
-				req.next_op_time += self.configs.precharge_time
+				req.next_op_time = self.configs.precharge_time
 				req.op_running = True
 				return self.bus.close_row, (req, None), req.next_op_time
 		return None
@@ -184,7 +188,7 @@ class MemoryController():
 		return address
 
 	def translate_address(self, address):
-		# 16 bits for row, 3 bits for bank, 12 bits for column
+		# self.config.row_bits bits for row, self.config.bank_bits bits for bank, self.config.col_bits bits for column
 		column = bitExtracted(address, self.configs.col_bits, 1)
 		bank = bitExtracted(address, self.configs.bank_bits, 1+self.configs.col_bits)
 		row = bitExtracted(address, self.configs.row_bits, 1+self.configs.col_bits+self.configs.bank_bits)
@@ -194,6 +198,7 @@ class MemoryController():
 		# address translation to physical address to bank, row tuple
 		# checks about security etc.
 		bank, row, column = self.translate_address(address)
+		print("read", user, bank, row, column)
 		commands = CommandSequence(self.clock.get_clock(), callback=callback)
 		commands.read_sequence(bank, row, column)
 		self.commands_queue.append(commands)
@@ -202,6 +207,7 @@ class MemoryController():
 		# address translation to physical address to bank, row tuple
 		# checks about security etc.
 		bank, row, column = self.translate_address(address)
+		print("write", user, bank, row, column)
 		commands = CommandSequence(self.clock.get_clock())
 		commands.write_sequence(bank, row, column, value)
 		self.commands_queue.append(commands) 

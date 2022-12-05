@@ -65,7 +65,7 @@ class Cell():
 		""" write voltage to cell """
 		# update cell's leakage
 		self.set_value(value)
-		print("V_s = ", self.V_s)
+		# print("V_s = ", self.V_s)
 		return
 	def get_value(self):
 		""" return value interpreted by SA """
@@ -96,8 +96,9 @@ class DRAM():
 		''' opens a row: transfers a row from bank to its row buffer'''
 		# update row buffer for bank
 		self.row_buffers[bank][0] = row
-		print("Activating bank, row: " + str(bank) + ", " + str(row))
+		# print("Activating bank, row: " + str(bank) + ", " + str(row))
 		# update activation time as current time
+		print("DRAM Activate", bank, row)
 		self.row_buffers[bank][1] = self.Clock.get_clock()
 		#TODO switch updates to here instead of reads/writes
 		for column in range(self.num_columns):
@@ -113,16 +114,18 @@ class DRAM():
 		''' read column from bank's row buffer'''
 		row = self.row_buffers[bank][0]
 		# read cell
+		print("DRAM READ", bank, row, column)
 		value = self.cells[bank][row][column].read()
-		print("Reading cell " + str(bank) + " " + str(column) + " = " + str(value))
+		# print("Reading cell " + str(bank) + " " + str(column) + " = " + str(value))
 		return value
 
 	def write(self, bank, column, value):
 		''' write value to column of row bank'''
 		row = self.row_buffers[bank][0]
 		# write cell
+		print("DRAM WRITE", bank, row, column)
 		self.cells[bank][row][column].write(value)
-		print("Write cell " + str(bank) + " " + str(column) + " = " + str(value))
+		# print("Write cell " + str(bank) + " " + str(column) + " = " + str(value))
 		return
 
 	def precharge(self, bank):
@@ -130,8 +133,9 @@ class DRAM():
 		
 		# restore cells in row buffer to full charge for current state (refresh cells)
 		row = self.row_buffers[bank][0]
-		print("Precharging bank " + str(bank) + ", row " + str(row))
+		# print("Precharging bank " + str(bank) + ", row " + str(row))
 		#print(self.row_buffers[bank][0])
+		print("DRAM Precharge", bank, row)
 		for column in range(self.num_columns):
 			#print(str(bank)+str(row)+str(column))
 			#print("1Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)
