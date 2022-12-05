@@ -35,6 +35,8 @@ class Clock():
 		return self.tick * (10**-9)
 
 	def tick_clock(self):
+		if self.tick % 100000 == 0:
+			print(self.tick, ": events in queue", len(self.events))
 		for e in self.events:
 			if e.scheduled_time <= self.tick:
 				# print(self.tick, end=": ")

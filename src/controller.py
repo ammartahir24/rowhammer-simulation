@@ -23,7 +23,7 @@ class MemoryBus():
 		return 0
 
 	def fetch(self, commandseq, callback):
-		print(commandseq)
+		# print(commandseq)
 		self.occupancy -= 1
 		value = 0
 		for i in range(8):
@@ -108,11 +108,6 @@ class MemoryController():
 		if len(self.commands_queue) == 0 and len(self.scheduled_requests) == 0:
 			return None
 
-		# for req in self.scheduled_requests:
-		# 	if len(req.commandseq) == 0:
-		# 		self.bank_status[req.bank] -= 1
-		# 		self.scheduled_requests.remove(req)
-
 		if len(self.scheduled_requests) > 0:
 			for req in self.scheduled_requests:
 				if req.op_running == False:
@@ -140,7 +135,7 @@ class MemoryController():
 			req = self.commands_queue[0]
 			# print(req.commandseq)
 			if req.row == self.opened_rows[req.bank] and self.bus.start_op(req):
-				print("row is open", req.commandseq)
+				# print("row is open", req.commandseq)
 				if req.commandseq[0][0] == "activate":
 					del req.commandseq[0]
 				if req.commandseq[0][0] == "read":
@@ -160,7 +155,7 @@ class MemoryController():
 					req.op_running = True
 					return self.bus.write, (req, None), req.next_op_time
 			elif self.bank_status[req.bank] < 1:
-				print("row is closed", req.commandseq, self.bank_status[req.bank])
+				# print("row is closed", req.commandseq, self.bank_status[req.bank])
 				self.scheduled_requests.append(req)
 				self.commands_queue.remove(req)
 				self.bank_status[req.bank] += 1
@@ -177,7 +172,7 @@ class MemoryController():
 		task = self.fcfs()
 		while task != None:
 			command, args, runtime = task
-			print("MemoryController: ", self.clock.get_clock(), command, args, runtime)
+			# print("MemoryController: ", self.clock.get_clock(), command, args, runtime)
 			self.clock.schedule(command, args, run_time=runtime)
 			task = self.fcfs()
 		self.clock.schedule(self.operate, None, run_time=1)
@@ -198,7 +193,7 @@ class MemoryController():
 		# address translation to physical address to bank, row tuple
 		# checks about security etc.
 		bank, row, column = self.translate_address(address)
-		print("read", user, bank, row, column)
+		# print("read", user, bank, row, column)
 		commands = CommandSequence(self.clock.get_clock(), callback=callback)
 		commands.read_sequence(bank, row, column)
 		self.commands_queue.append(commands)
@@ -207,7 +202,7 @@ class MemoryController():
 		# address translation to physical address to bank, row tuple
 		# checks about security etc.
 		bank, row, column = self.translate_address(address)
-		print("write", user, bank, row, column)
+		# print("write", user, bank, row, column)
 		commands = CommandSequence(self.clock.get_clock())
 		commands.write_sequence(bank, row, column, value)
 		self.commands_queue.append(commands) 

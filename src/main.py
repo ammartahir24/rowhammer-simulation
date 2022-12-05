@@ -8,7 +8,8 @@ clock = Clock()
 memory = MemoryController(cfg, clock)
 
 def p1_read(commandseq, value):
-	print("read callback", commandseq, value)
+	global clock
+	print(clock.get_clock(), "read callback", commandseq, value)
 
 
 # victim address: pick 3rd row
@@ -30,12 +31,12 @@ program1.cmd(program1.read, (v_addr, p1_read), 50)
 program2 = Program(clock, memory, 2)
 program2.cmd(program2.write, (ag_addr1, 255), 11)
 program2.cmd(program2.write, (ag_addr2, 128), 10)
-program2.cmd(program2.read, (ag_addr1, None), 55, period = 20, repeat = 2)
-program2.cmd(program2.read, (ag_addr2, None), 50, period = 20, repeat = 2)
+program2.cmd(program2.read, (ag_addr1, None), 55, period = 20, repeat = 20000)
+program2.cmd(program2.read, (ag_addr2, None), 50, period = 20, repeat = 20000)
 
-program1.cmd(program1.read, (v_addr, p1_read), 2900)
+program1.cmd(program1.read, (v_addr, p1_read), 2999900)
 
-clock.simulate(3000)
+clock.simulate(3000000)
 
 
 # # start events here e.g. rowhammer code execution or row activation by queuing smth in clock
