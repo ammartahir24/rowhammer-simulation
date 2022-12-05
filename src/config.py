@@ -42,4 +42,4 @@ cells = 8 #bits
 
 """ Memory controller params"""
 bus_size = 8 #bytes
-refresh_freq = 64000
+refresh_freq = 640000

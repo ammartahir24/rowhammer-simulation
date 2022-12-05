@@ -116,8 +116,8 @@ class MemoryController():
 						req.next_op_time = self.configs.read_time
 						req.op_running = True
 						del req.commandseq[0]
-						if req.row == 3:
-							print(req.next_op_time, len(self.commands_queue))
+						# if req.row == 3:
+						# 	print(req.next_op_time, len(self.commands_queue))
 						return self.bus.fetch, (req, req.callback), req.next_op_time 
 					elif req.commandseq[0][0] == "write" and self.bus.start_op(req):
 						req.next_op_time = self.configs.write_time
@@ -148,8 +148,8 @@ class MemoryController():
 					self.bank_status[req.bank] += 1
 					req.next_op_time = self.configs.read_time
 					req.op_running = True
-					if req.row == 3:
-						print(req.next_op_time, len(self.commands_queue))
+					# if req.row == 3:
+					# 	print(req.next_op_time, len(self.commands_queue))
 					return self.bus.fetch, (req, req.callback), req.next_op_time
 				elif req.commandseq[0][0] == "write":
 					del req.commandseq[0]
