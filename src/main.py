@@ -24,7 +24,7 @@ ag_addr2 = 0x0000801
 # victim program
 print("Start")
 program1 = Program(clock, memory, 1)
-program1.cmd(program1.write, (v_addr, 25), 10)
+program1.cmd(program1.write, (v_addr, 255), 10)
 program1.cmd(program1.read, (v_addr, p1_read), 50)
 program1.cmd(program1.read, (v_addr, p1_read), 2999000)
 
