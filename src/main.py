@@ -26,17 +26,17 @@ print("Start")
 program1 = Program(clock, memory, 1)
 program1.cmd(program1.write, (v_addr, 255), 10)
 program1.cmd(program1.read, (v_addr, p1_read), 50)
+program1.cmd(program1.read, (v_addr, p1_read), 2999000)
 
 #aggressor program
 program2 = Program(clock, memory, 2)
-program2.cmd(program2.write, (ag_addr1, 255), 11)
+program2.cmd(program2.write, (ag_addr1, 255), 20)
 program2.cmd(program2.write, (ag_addr2, 128), 10)
-program2.cmd(program2.read, (ag_addr1, None), 55, period = 20, repeat = 20000)
-program2.cmd(program2.read, (ag_addr2, None), 50, period = 20, repeat = 20000)
+program2.cmd(program2.read, (ag_addr1, None), 55, period = 80, repeat = 50000)
+program2.cmd(program2.read, (ag_addr2, None), 50, period = 80, repeat = 50000)
 
-program1.cmd(program1.read, (v_addr, p1_read), 2999900)
 
-clock.simulate(3000000)
+clock.simulate(10000000)
 
 
 # # start events here e.g. rowhammer code execution or row activation by queuing smth in clock

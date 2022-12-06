@@ -87,7 +87,7 @@ class MemoryController():
 	def __init__(self, configs, clock):
 		self.configs = configs
 		self.clock = clock
-		self.dram = DRAM(self.clock, config.banks, config.rows, config.columns)
+		self.dram = DRAM(self.clock, config.banks, config.columns, config.rows)
 		self.memory_mapping = {}
 		self.used_memory = []
 		self.memory_size = self.dram.size_bytes()
@@ -99,6 +99,7 @@ class MemoryController():
 			self.dram.activate(i,0)
 		self.bank_status = [0 for _ in range(self.configs.banks)]
 		self.clock.schedule(self.operate, None, run_time=1)
+		self.last_refresh_row = 0
 		print("MemoryController __init__")
 
 	def fcfs(self):
@@ -115,6 +116,8 @@ class MemoryController():
 						req.next_op_time = self.configs.read_time
 						req.op_running = True
 						del req.commandseq[0]
+						# if req.row == 3:
+						# 	print(req.next_op_time, len(self.commands_queue))
 						return self.bus.fetch, (req, req.callback), req.next_op_time 
 					elif req.commandseq[0][0] == "write" and self.bus.start_op(req):
 						req.next_op_time = self.configs.write_time
@@ -145,6 +148,8 @@ class MemoryController():
 					self.bank_status[req.bank] += 1
 					req.next_op_time = self.configs.read_time
 					req.op_running = True
+					# if req.row == 3:
+					# 	print(req.next_op_time, len(self.commands_queue))
 					return self.bus.fetch, (req, req.callback), req.next_op_time
 				elif req.commandseq[0][0] == "write":
 					del req.commandseq[0]
@@ -166,8 +171,13 @@ class MemoryController():
 
 
 	def operate(self):
-		# refreshing done here
-
+		# refreshing done here by reading all bank's row
+		if self.clock.get_clock() % int(self.configs.refresh_freq / self.configs.rows) == 0:
+			for i in range(self.configs.banks):
+				commands = CommandSequence(self.clock.get_clock(), callback=None)
+				commands.read_sequence(i, self.last_refresh_row, 0)
+				self.commands_queue.append(commands)
+			self.last_refresh_row = (self.last_refresh_row + 1) % self.configs.rows
 		# schedule commands
 		task = self.fcfs()
 		while task != None:
@@ -192,7 +202,10 @@ class MemoryController():
 	def read(self, user, address, callback):
 		# address translation to physical address to bank, row tuple
 		# checks about security etc.
+
 		bank, row, column = self.translate_address(address)
+		if user == 1:
+			print(user, address, bank, row, column)
 		# print("read", user, bank, row, column)
 		commands = CommandSequence(self.clock.get_clock(), callback=callback)
 		commands.read_sequence(bank, row, column)

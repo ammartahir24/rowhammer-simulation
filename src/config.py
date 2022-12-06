@@ -40,5 +40,6 @@ rows = 2**row_bits
 columns = 2**col_bits
 cells = 8 #bits
 
-
+""" Memory controller params"""
 bus_size = 8 #bytes
+refresh_freq = 640000
