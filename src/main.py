@@ -12,21 +12,32 @@ def p1_read(commandseq, value):
 	print(clock.get_clock(), "read callback", commandseq, value)
 
 
-# victim address: pick 3rd row
-# row:00000011 bank:000 col:000001 = 601
-v_addr = 0x0000601
+# victim address: pick 10th row
+# row:00001010 bank:000 col:000001 = 1401
+v_addr = 0x0001400
 
-# aggressor addresses: pick 2nd and 4th row
-# row:00000010 bank:000 col:000001 = 401
-ag_addr1 = 0x0000401
-# row:00000100 bank:000 col:000001 = 801
-ag_addr2 = 0x0000801
+# aggressor addresses: pick 9th and 11th row
+# row:00001001 bank:000 col:000001 = 1201
+ag_addr1 = 0x0001200
+# row:00001011 bank:000 col:000001 = 1601
+ag_addr2 = 0x0001600
+
+# surrounding addresses: rows 0-20
+r_addrs = [0x0000000, 0x0000200, 0x0000400, 0x0000600, 0x0000800, 0x0000A00, 0x0000C00, 0x0000E00, 0x0001000, 0x0001200, 0x0001400, 0x0001600, 0x0001800, 0x0001A00, 0x0001C00, 0x0001E00, 0x0002000, 0x0002200, 0x0002400, 0x0002600, 0x0002800]
+
 # victim program
 print("Start")
 program1 = Program(clock, memory, 1)
-program1.cmd(program1.write, (v_addr, 255), 10)
-program1.cmd(program1.read, (v_addr, p1_read), 50)
-program1.cmd(program1.read, (v_addr, p1_read), 2999000)
+for row_addr in r_addrs:
+	addr = row_addr
+	for column in range(2**(cfg.col_bits-3)):
+		program1.cmd(program1.write, (addr, 255), 10)
+		program1.cmd(program1.read, (addr, p1_read), 50)
+		program1.cmd(program1.read, (addr, p1_read), 2999000)
+		addr = addr + 1
+#program1.cmd(program1.write, (v_addr, 255), 10)
+#program1.cmd(program1.read, (v_addr, p1_read), 50)
+#program1.cmd(program1.read, (v_addr, p1_read), 2999000)
 
 #aggressor program
 program2 = Program(clock, memory, 2)
