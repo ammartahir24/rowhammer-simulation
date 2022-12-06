@@ -98,7 +98,7 @@ class DRAM():
 		self.row_buffers[bank][0] = row
 		# print("Activating bank, row: " + str(bank) + ", " + str(row))
 		# update activation time as current time
-		# print("DRAM Activate", bank, row)
+		print("DRAM Activate", bank, row)
 		self.row_buffers[bank][1] = self.Clock.get_clock()
 		#TODO switch updates to here instead of reads/writes
 		for column in range(self.num_columns):
@@ -114,7 +114,7 @@ class DRAM():
 		''' read column from bank's row buffer'''
 		row = self.row_buffers[bank][0]
 		# read cell
-		# print("DRAM READ", bank, row, column)
+		print("DRAM READ", bank, row, column)
 		value = self.cells[bank][row][column].read()
 		# print("Reading cell " + str(bank) + " " + str(column) + " = " + str(value))
 		return value
@@ -124,7 +124,7 @@ class DRAM():
 		row = self.row_buffers[bank][0]
 		print("Write cell bank ", bank, " row ", row, " column ", column, " = ", value)
 		# write cell
-		# print("DRAM WRITE", bank, row, column)
+		print("DRAM WRITE", bank, row, column)
 		self.cells[bank][row][column].write(value)
 		
 		return
@@ -136,7 +136,7 @@ class DRAM():
 		row = self.row_buffers[bank][0]
 		# print("Precharging bank " + str(bank) + ", row " + str(row))
 		#print(self.row_buffers[bank][0])
-		# print("DRAM Precharge", bank, row)
+		print("DRAM Precharge", bank, row)
 		for column in range(self.num_columns):
 			#print(str(bank)+str(row)+str(column))
 			#print("1Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)

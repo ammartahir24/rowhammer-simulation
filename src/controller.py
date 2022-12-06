@@ -23,7 +23,7 @@ class MemoryBus():
 		return 0
 
 	def fetch(self, commandseq, callback):
-		# print(commandseq)
+		# print("read", commandseq.bank, commandseq.row, commandseq.column)
 		self.occupancy -= 1
 		value = 0
 		for i in range(8):
@@ -51,7 +51,7 @@ class MemoryBus():
 		self.dram.activate(commandseq.bank, commandseq.row)
 		commandseq.op_running = False
 		if callback != None:
-			callback(commandseq, value)
+			callback(commandseq.bank)
 
 	def close_row(self, commandseq, callback):
 		self.dram.precharge(commandseq.bank)
@@ -97,15 +97,20 @@ class MemoryController():
 		self.opened_rows = [0 for _ in range(self.configs.banks)]
 		for i in range(self.configs.banks):
 			self.dram.activate(i,0)
-		self.bank_status = [0 for _ in range(self.configs.banks)]
+		self.bank_count = [0 for _ in range(self.configs.banks)]
+		self.bank_status = ["open" for _ in range(self.configs.banks)]
 		self.clock.schedule(self.operate, None, run_time=1)
 		self.last_refresh_row = 0
 		print("MemoryController __init__")
+
+	def row_activate_cb(self, bank):
+		self.bank_status[bank] = "open"
 
 	def fcfs(self):
 		# first come first serve scheduler
 			# serve requests in the order they come
 			# keep the row open after an operation
+		# print(self.commands_queue)
 		if len(self.commands_queue) == 0 and len(self.scheduled_requests) == 0:
 			return None
 
@@ -127,45 +132,52 @@ class MemoryController():
 					elif req.commandseq[0][0] == "activate":
 						req.next_op_time = self.configs.activation_time
 						req.op_running = True
+						self.opened_rows[req.bank] = req.row
+						# self.bank_count[req.bank] += 1
+						self.bank_status[req.bank] = "fetching"
 						del req.commandseq[0]
-						return self.bus.open_row, (req, None), req.next_op_time
+						return self.bus.open_row, (req, self.row_activate_cb), req.next_op_time
 					elif req.commandseq[0][0] == "precharge":
 						del req.commandseq[0]
-						self.bank_status[req.bank] -= 1
+						self.bank_count[req.bank] -= 1
 						self.scheduled_requests.remove(req)
 
 		if len(self.commands_queue) > 0:
 			req = self.commands_queue[0]
 			# print(req.commandseq)
-			if req.row == self.opened_rows[req.bank] and self.bus.start_op(req):
+			if req.row == self.opened_rows[req.bank]:
 				# print("row is open", req.commandseq)
 				if req.commandseq[0][0] == "activate":
-					del req.commandseq[0]
-				if req.commandseq[0][0] == "read":
+					if self.bank_status[req.bank] == "open":
+						del req.commandseq[0]
+					else:
+						return None
+				if req.commandseq[0][0] == "read" and self.bus.start_op(req):
 					del req.commandseq[0]
 					self.scheduled_requests.append(req)
 					self.commands_queue.remove(req)
-					self.bank_status[req.bank] += 1
+					self.bank_count[req.bank] += 1
 					req.next_op_time = self.configs.read_time
 					req.op_running = True
 					# if req.row == 3:
 					# 	print(req.next_op_time, len(self.commands_queue))
 					return self.bus.fetch, (req, req.callback), req.next_op_time
-				elif req.commandseq[0][0] == "write":
+				elif req.commandseq[0][0] == "write" and self.bus.start_op(req):
 					del req.commandseq[0]
 					self.scheduled_requests.append(req)
 					self.commands_queue.remove(req)
-					self.bank_status[req.bank] += 1
+					self.bank_count[req.bank] += 1
 					req.next_op_time = self.configs.write_time
 					req.op_running = True
 					return self.bus.write, (req, None), req.next_op_time
-			elif self.bank_status[req.bank] < 1:
+			elif self.bank_count[req.bank] < 1:
 				# print("row is closed", req.commandseq, self.bank_status[req.bank])
 				self.scheduled_requests.append(req)
 				self.commands_queue.remove(req)
-				self.bank_status[req.bank] += 1
+				self.bank_count[req.bank] += 1
 				req.next_op_time = self.configs.precharge_time
 				req.op_running = True
+				self.bank_status[req.bank] = "closing"
 				return self.bus.close_row, (req, None), req.next_op_time
 		return None
 
@@ -182,7 +194,7 @@ class MemoryController():
 		task = self.fcfs()
 		while task != None:
 			command, args, runtime = task
-			# print("MemoryController: ", self.clock.get_clock(), command, args, runtime)
+			# print("MemoryController: ", self.clock.get_clock(), command, args[0].bank, args[0].row, args[0].column)
 			self.clock.schedule(command, args, run_time=runtime)
 			task = self.fcfs()
 		self.clock.schedule(self.operate, None, run_time=1)
@@ -204,8 +216,8 @@ class MemoryController():
 		# checks about security etc.
 
 		bank, row, column = self.translate_address(address)
-		if user == 1:
-			print(user, address, bank, row, column)
+		# if user == 1:
+		# 	print(user, address, bank, row, column)
 		# print("read", user, bank, row, column)
 		commands = CommandSequence(self.clock.get_clock(), callback=callback)
 		commands.read_sequence(bank, row, column)
