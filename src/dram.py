@@ -173,6 +173,8 @@ class DRAM():
 	def refresh(self, bank, row):
 		''' refresh all bank's row by activating and precharging it'''
 		# activate and precharge row in all banks
-		print("Refreshing row " + str(row))
+		print("Refreshing row", row, "of", bank, "bank")
+		# for bank in range(self.num_banks):
 		self.activate(bank, row)
-		#self.precharge(bank)
+			# self.precharge(bank)
+		return
