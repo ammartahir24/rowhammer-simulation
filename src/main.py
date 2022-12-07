@@ -9,7 +9,7 @@ memory = MemoryController(cfg, clock)
 
 def p1_read(commandseq, value):
 	global clock
-	print(clock.get_clock(), "read callback", commandseq, bin(value))
+	print(clock.get_clock(), "read callback", commandseq.address, bin(value))
 
 """
 # victim address: pick 10th row
