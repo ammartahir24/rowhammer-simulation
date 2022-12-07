@@ -105,6 +105,7 @@ class DRAM():
 			#self.cells[bank][row][column].update_t_N()
 			#print("Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)
 			self.cells[bank][row][column].update_V_s_leakage()
+			self.cells[bank][row][column].refresh()
 		return
 
 	def size_bytes(self):
@@ -138,11 +139,6 @@ class DRAM():
 		# print("Precharging bank " + str(bank) + ", row " + str(row))
 		#print(self.row_buffers[bank][0])
 		#print("DRAM Precharge", bank, row)
-		for column in range(self.num_columns):
-			#print(str(bank)+str(row)+str(column))
-			#print("1Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)
-			self.cells[bank][row][column].refresh()
-			#print("2Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)
 		# update activation time as current time for current row buffer
 		self.row_buffers[bank][2] = self.Clock.get_clock() - self.row_buffers[bank][1]
 		activation_time = self.row_buffers[bank][2]
@@ -158,15 +154,15 @@ class DRAM():
 					probability_toggle = 0
 				#print("Toggle prob: " + str(probability_toggle), " row: " + str(row_vict))
 				for column in range(self.num_columns):
-					random_num = random.randrange(0, 1000000) 
-					if (random_num < (probability_toggle*1000000/self.num_columns)):
+					random_num = random.randrange(0, 100000) 
+					if (random_num < (probability_toggle*100000/self.num_columns)):
 						#print("Toggled cell ", row_vict, " ", column)
 						#self.cells[bank][row_vict][column].N_att += 1
 						#self.cells[bank][row_vict][column].B_tot = self.cells[bank][row_vict][column].B_tot + self.row_buffers[bank][2] 
 						#print("before agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						self.cells[bank][row_vict][column].update_V_s_agg(activation_time)
 						if (bank == 0 and row_vict == 3 and column >=8 and column <= 15):
-							print ("V_s for column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*1000000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
+							print ("V_s for column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
 						#print("after agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						pass
 		# remove row buffer from bank
