@@ -11,7 +11,7 @@ def p1_read(commandseq, value):
 	global clock
 	print(clock.get_clock(), "read callback", commandseq, bin(value))
 
-"""
+
 # victim address: pick 10th row
 # row:00001010 bank:000 col:000001 = 1401
 v_addr = 0x0001400
@@ -48,6 +48,8 @@ program2.cmd(program2.read, (ag_addr2, None), 50, period = 80, repeat = 50000)
 
 
 clock.simulate(20000000)
+
+
 """
 
 # victim address: pick 3rd row
@@ -78,6 +80,7 @@ program2.cmd(program2.read, (ag_addr2, None), 50, period = 80, repeat = 50000)
 
 clock.simulate(10000000)
 
+"""
 
 # # start events here e.g. rowhammer code execution or row activation by queuing smth in clock
 # #clock.schedule(memory.activate, (1,1), run_time=10)
