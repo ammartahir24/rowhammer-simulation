@@ -98,7 +98,7 @@ class DRAM():
 		self.row_buffers[bank][0] = row
 		# print("Activating bank, row: " + str(bank) + ", " + str(row))
 		# update activation time as current time
-		print("DRAM Activate", bank, row)
+		#print("DRAM Activate", bank, row)
 		self.row_buffers[bank][1] = self.Clock.get_clock()
 		#TODO switch updates to here instead of reads/writes
 		for column in range(self.num_columns):
@@ -114,9 +114,10 @@ class DRAM():
 		''' read column from bank's row buffer'''
 		row = self.row_buffers[bank][0]
 		# read cell
-		print("DRAM READ", bank, row, column)
+		#print("DRAM READ", bank, row, column)
 		value = self.cells[bank][row][column].read()
-		# print("Reading cell " + str(bank) + " " + str(column) + " = " + str(value))
+		if (bank == 0 and row == 3 and column >=8 and column <= 15):
+			print("Reading cell " + str(bank) + " " + str(column) + " = " + str(self.cells[bank][row][column].V_s))
 		return value
 
 	def write(self, bank, column, value):
@@ -124,7 +125,7 @@ class DRAM():
 		row = self.row_buffers[bank][0]
 		print("Write cell bank ", bank, " row ", row, " column ", column, " = ", value)
 		# write cell
-		print("DRAM WRITE", bank, row, column)
+		#print("DRAM WRITE", bank, row, column)
 		self.cells[bank][row][column].write(value)
 		
 		return
@@ -136,7 +137,7 @@ class DRAM():
 		row = self.row_buffers[bank][0]
 		# print("Precharging bank " + str(bank) + ", row " + str(row))
 		#print(self.row_buffers[bank][0])
-		print("DRAM Precharge", bank, row)
+		#print("DRAM Precharge", bank, row)
 		for column in range(self.num_columns):
 			#print(str(bank)+str(row)+str(column))
 			#print("1Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)
@@ -152,20 +153,20 @@ class DRAM():
 				
 				row_dist = row_vict - row
 				if (row_dist%2 == 1):
-					probability_toggle = cfg.a*math.exp(-(abs(row_dist)))
+					probability_toggle = cfg.a*(cfg.b**(-(abs(row_dist))))
 				else: 
 					probability_toggle = 0
 				#print("Toggle prob: " + str(probability_toggle), " row: " + str(row_vict))
 				for column in range(self.num_columns):
-					random_num = random.randrange(0, 100000) 
-					if (random_num < (probability_toggle*100000/self.num_columns)):
+					random_num = random.randrange(0, 1000000) 
+					if (random_num < (probability_toggle*1000000/self.num_columns)):
 						#print("Toggled cell ", row_vict, " ", column)
 						#self.cells[bank][row_vict][column].N_att += 1
 						#self.cells[bank][row_vict][column].B_tot = self.cells[bank][row_vict][column].B_tot + self.row_buffers[bank][2] 
 						#print("before agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						self.cells[bank][row_vict][column].update_V_s_agg(activation_time)
-						#if (bank == 0 and row_vict == 3 and column >=8 and column <= 15):
-							#print ("V_s for column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
+						if (bank == 0 and row_vict == 3 and column >=8 and column <= 15):
+							print ("V_s for column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*1000000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
 						#print("after agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						pass
 		# remove row buffer from bank
@@ -176,7 +177,7 @@ class DRAM():
 	def refresh(self, row):
 		''' refresh all bank's row by activating and precharging it'''
 		# activate and precharge row in all banks
-		# print("Refreshing row " + str(row))
+		print("Refreshing row " + str(row))
 		for bank in range(self.num_banks):
 			self.activate(bank, row)
 			self.precharge(bank)

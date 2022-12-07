@@ -4,7 +4,7 @@ For all configurations e.g. refresh rate, scheduling algorithms, dram configs
 
 """ Cell parameters as defined in "Quantifying Rowhammer Vulnerability for DRAM Security" """
 
-R_SW = 7000000            # Equivalent resistance of coupling leakage
+R_SW = 40000000            # Equivalent resistance of coupling leakage
 R_L = 4000000000000           # Equivalent resistance of intrinsic leakage
 VDD = 1.2                   # Power supply voltage
 C_S = .00000000000003      # Capacitance of the storage capacitor, could not find in any datasheets but some sources say 25-30 fF. units?
@@ -20,7 +20,8 @@ y = 0 if x is even
 
 """
 
-a = .5
+a = .3
+b = 3
 
 """ DRAM timing parameters (ns) """
 
@@ -42,4 +43,4 @@ cells = 8 #bits
 
 """ Memory controller params"""
 bus_size = 8 #bytes
-refresh_freq = 640000
+refresh_freq = 6400000
