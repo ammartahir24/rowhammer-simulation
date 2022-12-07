@@ -23,7 +23,7 @@ class MemoryBus():
 		return 0
 
 	def fetch(self, commandseq, callback):
-		print("read", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
+		#print("read", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.occupancy -= 1
 		value = 0
 		for i in range(8):
@@ -49,7 +49,7 @@ class MemoryBus():
 			callback(commandseq, value)
 
 	def open_row(self, commandseq, callback):
-		print("open", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
+		#print("open", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.dram.activate(commandseq.bank, commandseq.row)
 		commandseq.op_running = False
 		if callback != None:
@@ -63,7 +63,7 @@ class MemoryBus():
 			callback(commandseq.bank)
 
 	def close_row(self, commandseq, callback):
-		print("close", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
+		#print("close", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.dram.precharge(commandseq.bank)
 		commandseq.op_running = False
 		if callback != None:
