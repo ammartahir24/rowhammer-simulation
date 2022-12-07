@@ -9,7 +9,7 @@ memory = MemoryController(cfg, clock)
 
 def p1_read(commandseq, value):
 	global clock
-	print(clock.get_clock(), "read callback", commandseq, value)
+	print(clock.get_clock(), "read callback", commandseq, bin(value))
 
 """
 # victim address: pick 10th row
@@ -52,19 +52,21 @@ clock.simulate(20000000)
 
 # victim address: pick 3rd row
 # row:00000011 bank:000 col:000001 = 601
-v_addr = 0x0000601
+v_addr = 0x0000600
 
 # aggressor addresses: pick 2nd and 4th row
 # row:00000010 bank:000 col:000001 = 401
-ag_addr1 = 0x0000401
+ag_addr1 = 0x0000400
 # row:00000100 bank:000 col:000001 = 801
-ag_addr2 = 0x0000801
+ag_addr2 = 0x0000800
 # victim program
 print("Start")
 program1 = Program(clock, memory, 1)
-program1.cmd(program1.write, (v_addr, 255), 10)
-program1.cmd(program1.read, (v_addr, p1_read), 50)
-program1.cmd(program1.read, (v_addr, p1_read), 9900000)
+for column in range(2**(cfg.col_bits-3)):
+	program1.cmd(program1.write, (v_addr, 255), 10)
+	program1.cmd(program1.read, (v_addr, p1_read), 50)
+	program1.cmd(program1.read, (v_addr, p1_read), 9900000)
+	v_addr = v_addr + 1
 
 #aggressor program
 program2 = Program(clock, memory, 2)
