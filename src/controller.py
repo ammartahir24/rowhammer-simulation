@@ -23,7 +23,7 @@ class MemoryBus():
 		return 0
 
 	def fetch(self, commandseq, callback):
-		# print("read", commandseq.bank, commandseq.row, commandseq.column)
+		print("read", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.occupancy -= 1
 		value = 0
 		for i in range(8):
@@ -37,6 +37,7 @@ class MemoryBus():
 			callback(commandseq, value)
 
 	def write(self, commandseq, callback):
+		print("write", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.occupancy -= 1
 		value = commandseq.value
 		for i in range(8):
@@ -48,12 +49,21 @@ class MemoryBus():
 			callback(commandseq, value)
 
 	def open_row(self, commandseq, callback):
+		print("open", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.dram.activate(commandseq.bank, commandseq.row)
 		commandseq.op_running = False
 		if callback != None:
 			callback(commandseq.bank)
 
+	def refresh(self, commandseq, callback):
+		print("refresh", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
+		self.dram.refresh(commandseq.bank, commandseq.row)
+		commandseq.op_running = False
+		if callback != None:
+			callback(commandseq.bank)
+
 	def close_row(self, commandseq, callback):
+		print("close", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.dram.precharge(commandseq.bank)
 		commandseq.op_running = False
 		if callback != None:
@@ -72,6 +82,11 @@ class CommandSequence():
 	def read_sequence(self, bank, row, column):
 		self.commandseq.append(("activate", bank, row))
 		self.commandseq.append(("read", bank, row, column))
+		self.commandseq.append(("precharge", bank))
+		self.bank, self.row, self.column = bank, row, column
+
+	def refresh_sequence(self, bank, row, column):
+		self.commandseq.append(("refresh", bank, row))
 		self.commandseq.append(("precharge", bank))
 		self.bank, self.row, self.column = bank, row, column
 
@@ -104,6 +119,7 @@ class MemoryController():
 		print("MemoryController __init__")
 
 	def row_activate_cb(self, bank):
+		print(self.opened_rows)
 		self.bank_status[bank] = "open"
 
 	def fcfs(self):
@@ -137,6 +153,14 @@ class MemoryController():
 						self.bank_status[req.bank] = "fetching"
 						del req.commandseq[0]
 						return self.bus.open_row, (req, self.row_activate_cb), req.next_op_time
+					elif req.commandseq[0][0] == "refresh":
+						req.next_op_time = self.configs.activation_time
+						req.op_running = True
+						self.opened_rows[req.bank] = req.row
+						# self.bank_count[req.bank] += 1
+						self.bank_status[req.bank] = "fetching"
+						del req.commandseq[0]
+						return self.bus.refresh, (req, self.row_activate_cb), req.next_op_time
 					elif req.commandseq[0][0] == "precharge":
 						del req.commandseq[0]
 						self.bank_count[req.bank] -= 1
@@ -147,15 +171,15 @@ class MemoryController():
 			# print(req.commandseq)
 			if req.row == self.opened_rows[req.bank]:
 				# print("row is open", req.commandseq)
-				if req.commandseq[0][0] == "activate":
+				if req.commandseq[0][0] == "activate" or req.commandseq[0][0] == "refresh":
 					if self.bank_status[req.bank] == "open":
 						del req.commandseq[0]
 					else:
 						return None
-				if req.commandseq[0][0] == "read" and self.bus.start_op(req):
-					del req.commandseq[0]
 					self.scheduled_requests.append(req)
 					self.commands_queue.remove(req)
+				if req.commandseq[0][0] == "read" and self.bus.start_op(req):
+					del req.commandseq[0]
 					self.bank_count[req.bank] += 1
 					req.next_op_time = self.configs.read_time
 					req.op_running = True
@@ -164,8 +188,6 @@ class MemoryController():
 					return self.bus.fetch, (req, req.callback), req.next_op_time
 				elif req.commandseq[0][0] == "write" and self.bus.start_op(req):
 					del req.commandseq[0]
-					self.scheduled_requests.append(req)
-					self.commands_queue.remove(req)
 					self.bank_count[req.bank] += 1
 					req.next_op_time = self.configs.write_time
 					req.op_running = True
@@ -185,10 +207,11 @@ class MemoryController():
 	def operate(self):
 		# refreshing done here by reading all bank's row
 		if self.clock.get_clock() % int(self.configs.refresh_freq / self.configs.rows) == 0:
+			print(self.clock.get_clock(), "Refreshing now", int(self.configs.refresh_freq / self.configs.rows), self.last_refresh_row)
 			for i in range(self.configs.banks):
 				commands = CommandSequence(self.clock.get_clock(), callback=None)
-				commands.read_sequence(i, self.last_refresh_row, 0)
-				self.commands_queue.append(commands)
+				commands.refresh_sequence(i, self.last_refresh_row, 0)
+				self.commands_queue.insert(0,commands)
 			self.last_refresh_row = (self.last_refresh_row + 1) % self.configs.rows
 		# schedule commands
 		task = self.fcfs()
