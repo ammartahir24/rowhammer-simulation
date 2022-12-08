@@ -12,7 +12,7 @@ def p1_read(commandseq, value):
 	print(clock.get_clock(), "read callback", hex(commandseq.address), bin(value))
 
 
-
+"""
 # victim address: pick 10th row
 # row:00001010 bank:000 col:000001 = 1401
 v_addr = 0x0001400
