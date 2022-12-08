@@ -34,9 +34,9 @@ precharge_time = 15
 
 """ DRAM Parameters """
 
-bank_bits = 3
-row_bits = 8
-col_bits = 6
+bank_bits = 2
+row_bits = 6
+col_bits = 3
 
 banks = 2**bank_bits
 rows = 2**row_bits
@@ -50,7 +50,6 @@ count_min_size = [4, 6] #[hash rows, hash columns]
 
 """ Memory controller params"""
 bus_size = 8 #bytes
-refresh_freq = 4000000
 
 """ params for https://arxiv.org/pdf/2005.13121.pdf fig 7 
 
@@ -64,3 +63,7 @@ b = 2.5
 
 """
 
+""" defense configurations """
+refresh_freq = 4000000
+mc_ptrr = True
+trr_mac = 1
