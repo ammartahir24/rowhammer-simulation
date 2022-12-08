@@ -4,6 +4,7 @@ memory controller operations
 import config
 from dram import DRAM
 from simulate import Clock
+import random
 
 def bitExtracted(number, k, p):
 	return ( ((1 << k) - 1)  &  (number >> (p-1) ) )
@@ -53,7 +54,7 @@ class MemoryBus():
 		self.dram.activate(commandseq.bank, commandseq.row)
 		commandseq.op_running = False
 		if callback != None:
-			callback(commandseq.bank)
+			callback(commandseq.bank, commandseq.row)
 
 	def refresh(self, commandseq, callback):
 		print("refresh", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
@@ -109,6 +110,7 @@ class MemoryController():
 		self.memory_size = self.dram.size_bytes()
 		self.commands_queue = []
 		self.scheduled_requests = []
+		self.extra_refreshes = []
 		self.bus = MemoryBus(self.configs.bus_size, self.dram, self.clock)
 		self.opened_rows = [0 for _ in range(self.configs.banks)]
 		for i in range(self.configs.banks):
@@ -119,10 +121,15 @@ class MemoryController():
 		self.last_refresh_row = 0
 		print("MemoryController __init__")
 
-	def row_activate_cb(self, bank):
+	def row_activate_cb(self, bank, row):
 		# print(self.opened_rows)
 		# print(self.bank_count)
 		self.bank_status[bank] = "open"
+		if self.configs.mc_ptrr:
+			time_1 = self.configs.activation_time + self.configs.read_time + self.configs.precharge_time
+			max_activations = self.configs.refresh_freq / time_1
+			if random.randrange(int(max_activations / self.configs.trr_mac)) != 0:
+				self.extra_refreshes.append((bank, row))
 
 	def fcfs(self):
 		# first come first serve scheduler
@@ -207,6 +214,11 @@ class MemoryController():
 
 	def operate(self):
 		# refreshing done here by reading all bank's row
+		for ref in self.extra_refreshes:
+			commands = CommandSequence(self.clock.get_clock(), callback=None)
+			commands.refresh_sequence(ref[0], ref[1], 0)
+			self.commands_queue.insert(0,commands)
+		self.extra_refreshes = []
 		if self.clock.get_clock() % int(self.configs.refresh_freq / self.configs.rows) == 0:
 			for i in range(self.configs.banks):
 				commands = CommandSequence(self.clock.get_clock(), callback=None)
