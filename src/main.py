@@ -15,7 +15,7 @@ def p1_read(commandseq, value):
 """
 # victim address: pick 10th row
 # row:001010 bank:00 col:001 = 1401
-v_addr = 0x0001400
+v_addr = 0x0000140
 
 # aggressor addresses: pick 9th and 11th row
 # row:001001 bank:00 col:000 = 121
