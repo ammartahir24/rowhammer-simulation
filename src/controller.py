@@ -103,7 +103,7 @@ class MemoryController():
 	def __init__(self, configs, clock):
 		self.configs = configs
 		self.clock = clock
-		self.dram = DRAM(self.clock, config.banks, config.columns, config.rows)
+		self.dram = DRAM(self.clock, config.banks, config.columns*config.cells, config.rows)
 		self.memory_mapping = {}
 		self.used_memory = []
 		self.memory_size = self.dram.size_bytes()

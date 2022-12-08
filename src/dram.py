@@ -90,6 +90,8 @@ class DRAM():
 		self.num_cells = num_banks*num_columns*num_rows
 		self.cells = [[[Cell(self.Clock) for k in range(num_columns)] for j in range(num_rows)] for i in range(num_banks)]
 		self.row_buffers = [[None, 0, 0] for k in range(num_banks)] # (Row number, activation time, activation time interval)
+		self.trr_samples = [[None, None, 0, 0] for k in range(cfg.trr_samples)] # [bank, row, activations, last accessed]
+		self.cm_table = [[0 for k in range(cfg.count_min_size[1])] for k in range(cfg.count_min_size[0])]
 		print("DRAM __init__")
 
 	def activate(self, bank, row):
@@ -106,7 +108,47 @@ class DRAM():
 			#print("Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)
 			self.cells[bank][row][column].update_V_s_leakage()
 			self.cells[bank][row][column].refresh()
+
+		#if in-dram trr enabled, sample for aggressor activations
+		if cfg.in_dram_trr == True:
+			self.trr_check(bank, row)
 		return
+
+	def trr_hash_read(self, row):
+		min_count = 999999999
+		for i in range(cfg.count_min_size[0]):
+			index = (row + (2*i)) % cfg.count_min_size[1]
+			if self.cm_table[i][index] < min:
+				min_count = self.cm_table[i][index]
+		return min_count
+
+	def trr_hash_write(self, row):
+		for i in range(cfg.count_min_size[0]):
+			index = (row + (2*i)) % cfg.count_min_size[1]
+			self.cm_table[i][index] += 1
+
+	def trr_check(self, bank, row):
+		found = False
+		found_ind = -1
+		evict = 0
+		min_count = 999999999
+		for i in range(cfg.trr_samples):
+			if self.trr_samples[i][0] == bank and self.trr_samples[i][1] == row:
+				print("Found activation count for bank ", bank, " row ", row, " value = ", self.trr_samples[i][2])
+				self.trr_samples[i][2] = self.trr_samples[i][2]+1
+				self.trr_samples[i][3] = self.Clock.get_clock()
+				found_ind = i
+				found = True
+			hash_count = self.trr_hash_read(row)
+			if hash_count < min_count:
+				min_count = hash_count
+				evict = i
+		if found == False:
+			print("Starting sample for bank ", bank, " row ", row)
+			self.trr_samples[evict] = [bank, row, 0, self.Clock.get_clock()]
+		
+		return
+
 
 	def size_bytes(self):
 		return self.num_banks*self.num_columns*self.num_rows / 8
@@ -161,8 +203,8 @@ class DRAM():
 						#self.cells[bank][row_vict][column].B_tot = self.cells[bank][row_vict][column].B_tot + self.row_buffers[bank][2] 
 						#print("before agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						self.cells[bank][row_vict][column].update_V_s_agg(activation_time)
-						#if (bank == 0 and row_vict < 16 and row_vict > 4):
-						#	print ("V_s for row", row_vict, " column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
+						if (bank == 0 and row_vict < 16 and row_vict >= 3):
+							print ("V_s for row", row_vict, " column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
 						#print("after agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						pass
 		# remove row buffer from bank
@@ -172,6 +214,15 @@ class DRAM():
 
 	def refresh(self, bank, row):
 		''' refresh all bank's row by activating and precharging it'''
+		# activate and precharge row in all banks
+		#print("Refreshing row", row, "of", bank, "bank")
+		# for bank in range(self.num_banks):
+		self.activate(bank, row)
+			# self.precharge(bank)
+		return
+
+	def target_row_refresh(self, bank, row):
+		''' refresh target row by activating it'''
 		# activate and precharge row in all banks
 		#print("Refreshing row", row, "of", bank, "bank")
 		# for bank in range(self.num_banks):
