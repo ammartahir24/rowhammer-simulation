@@ -122,10 +122,13 @@ class DRAM():
 				min_count = self.cm_table[i][index]
 		return min_count
 
-	def trr_hash_write(self, row):
+	def trr_hash_write(self, row, incr):
 		for i in range(cfg.count_min_size[0]):
 			index = (row + (2*i)) % cfg.count_min_size[1]
-			self.cm_table[i][index] += 1
+			if incr:
+				self.cm_table[i][index] += 1
+			else: 
+				self.cm_table[i][index] = 0
 
 	def trr_check(self, bank, row):
 		found = False
@@ -137,6 +140,7 @@ class DRAM():
 				print("Found activation count for bank ", bank, " row ", row, " value = ", self.trr_samples[i][2])
 				self.trr_samples[i][2] = self.trr_samples[i][2]+1
 				self.trr_samples[i][3] = self.Clock.get_clock()
+				self.trr_hash_write(row)
 				found_ind = i
 				found = True
 			hash_count = self.trr_hash_read(row)
@@ -145,7 +149,8 @@ class DRAM():
 				evict = i
 		if found == False:
 			print("Starting sample for bank ", bank, " row ", row)
-			self.trr_samples[evict] = [bank, row, 0, self.Clock.get_clock()]
+			self.trr_samples[evict] = [bank, row, 1, self.Clock.get_clock()]
+			self.trr_hash_write(row)
 		
 		return
 
@@ -215,17 +220,29 @@ class DRAM():
 	def refresh(self, bank, row):
 		''' refresh all bank's row by activating and precharging it'''
 		# activate and precharge row in all banks
-		#print("Refreshing row", row, "of", bank, "bank")
+		print("Refreshing row", row, "of", bank, "bank")
 		# for bank in range(self.num_banks):
 		self.activate(bank, row)
+		if cfg.in_dram_trr:
+			max_count = -1
+			aggr = -1
+			for i in range(cfg.trr_samples):
+				if self.trr_samples[i][0] == bank and self.trr_samples[i][1] == row:
+					if self.trr_samples[i][2] > max_count:
+						aggr = i
+			aggr_bank = self.trr_samples[aggr][0]
+			aggr_row = self.trr_samples[aggr][1]
+			self.target_row_refresh(aggr_bank, aggr_row)
+			self.trr_hash_write(aggr_row, False)
+			self.trr_samples[aggr] = [None, None, 0, 0]
 			# self.precharge(bank)
 		return
 
 	def target_row_refresh(self, bank, row):
-		''' refresh target row by activating it'''
-		# activate and precharge row in all banks
-		#print("Refreshing row", row, "of", bank, "bank")
+		''' refresh target row's neighbors by activating it'''
+		#print("Target Refreshing row", row, "of", bank, "bank")
 		# for bank in range(self.num_banks):
-		self.activate(bank, row)
+		self.activate(bank, row-1)
+		self.activate(bank, row+1)
 			# self.precharge(bank)
 		return

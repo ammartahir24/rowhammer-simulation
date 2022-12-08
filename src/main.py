@@ -55,13 +55,13 @@ clock.simulate(20000000)
 
 # victim address: pick 3rd row
 # row:00000011 bank:000 col:000001 = 601
-v_addr = 0x0000600
+v_addr = 0x000060
 
 # aggressor addresses: pick 2nd and 4th row
 # row:00000010 bank:000 col:000001 = 401
-ag_addr1 = 0x0000400
+ag_addr1 = 0x000040
 # row:00000100 bank:000 col:000001 = 801
-ag_addr2 = 0x0000800
+ag_addr2 = 0x000080
 # victim program
 print("Start")
 program1 = Program(clock, memory, 1)
