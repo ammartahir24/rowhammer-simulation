@@ -128,7 +128,7 @@ class MemoryController():
 		if self.configs.mc_ptrr:
 			time_1 = self.configs.activation_time + self.configs.read_time + self.configs.precharge_time
 			max_activations = self.configs.refresh_freq / time_1
-			if random.randrange(int(max_activations / self.configs.trr_mac)) != 0:
+			if random.randrange(int(max_activations / self.configs.ptrr_mac)) != 0:
 				self.extra_refreshes += [(row-i-1, bank) for i in range(self.configs.trr_ref_rows) if row-i-1>=0]
 				self.extra_refreshes += [(row+i+1, bank) for i in range(self.configs.trr_ref_rows) if row+i+1<self.configs.rows]
 
@@ -141,7 +141,8 @@ class MemoryController():
 			return None
 
 		if len(self.scheduled_requests) > 0:
-			for req in self.scheduled_requests:
+			sch_requests = [r for r in self.scheduled_requests]
+			for req in sch_requests:
 				if req.op_running == False:
 					if req.commandseq[0][0] == "read" and self.bus.start_op(req):
 						req.next_op_time = self.configs.read_time

@@ -39,9 +39,10 @@ class Program():
 				# if self.user == 1:
 					# print("Program for", self.user, ":", func, args)
 				self.clock.schedule(func, args, run_time=1)
+		self.clock.schedule(self.operate, None, run_time=1)
+		for e in self.events:
 			if e.i >= e.repeat:
 				self.events.remove(e)
-		self.clock.schedule(self.operate, None, run_time=1)
 
 	def read(self, address, callback):
 		self.memory.read(self.user, address, callback)
