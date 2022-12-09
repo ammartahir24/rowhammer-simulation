@@ -6,7 +6,7 @@ For all configurations e.g. refresh rate, scheduling algorithms, dram configs
 
 """ Cell parameters as defined in "Quantifying Rowhammer Vulnerability for DRAM Security" """
 
-R_SW = 45000000            # Equivalent resistance of coupling leakage
+R_SW = 43000000            # Equivalent resistance of coupling leakage
 R_L = 4000000000000           # Equivalent resistance of intrinsic leakage
 VDD = 1.2                   # Power supply voltage
 C_S = .00000000000003      # Capacitance of the storage capacitor, could not find in any datasheets but some sources say 25-30 fF. units?
@@ -45,7 +45,7 @@ cells = 8 #bits
 
 in_dram_trr = True
 trr_samples = 4
-maximum_activate_count = 10000
+maximum_activate_count = 15000
 count_min_size = [4, 6] #[hash rows, hash columns]
 
 """ Memory controller params"""

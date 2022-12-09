@@ -23,6 +23,12 @@ ag_addr1 = 0x0000120
 # row:001011 bank:00 col:000 = 161
 ag_addr2 = 0x0000160
 
+ag_addr3 = 0x00001A0
+ag_addr4 = 0x00000E0
+ag_addr5 = 0x00001E0
+ag_addr6 = 0x0000220
+ag_addr7 = 0x00000A0
+
 # surrounding addresses: rows 0-20
 r_addrs = [0x0000000, 0x0000020, 0x0000040, 0x0000060, 0x0000080, 0x00000A0, 0x00000C0, 0x00000E0, 0x0000100, 0x0000120, 0x0000140, 0x0000160, 0x0000180, 0x00001A0, 0x00001C0, 0x00001E0, 0x0000200, 0x0000220, 0x0000240, 0x0000260, 0x0000280]
 
@@ -44,8 +50,13 @@ for row_addr in r_addrs:
 program2 = Program(clock, memory, 2)
 program2.cmd(program2.write, (ag_addr1, 255), 20)
 program2.cmd(program2.write, (ag_addr2, 128), 10)
-program2.cmd(program2.read, (ag_addr1, None), 55, period = 80, repeat = 50000)
-program2.cmd(program2.read, (ag_addr2, None), 50, period = 80, repeat = 50000)
+program2.cmd(program2.read, (ag_addr1, None), 50, period = 80, repeat = 20000)
+program2.cmd(program2.read, (ag_addr2, None), 55, period = 80, repeat = 20000)
+#program2.cmd(program2.read, (ag_addr3, None), 60, period = 80, repeat = 20000)
+#program2.cmd(program2.read, (ag_addr4, None), 65, period = 80, repeat = 20000)
+#program2.cmd(program2.read, (ag_addr5, None), 70, period = 80, repeat = 20000)
+#program2.cmd(program2.read, (ag_addr6, None), 75, period = 80, repeat = 20000)
+#program2.cmd(program2.read, (ag_addr7, None), 80, period = 80, repeat = 20000)
 
 
 clock.simulate(20000000)

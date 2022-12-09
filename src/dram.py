@@ -226,26 +226,29 @@ class DRAM():
 		# for bank in range(self.num_banks):
 		self.activate(bank, row)
 		if cfg.in_dram_trr:
-			max_count = -1
 			aggr = -1
 			for i in range(cfg.trr_samples):
-				if self.trr_samples[i][2] > max_count:
+				if self.trr_samples[i][2] > cfg.maximum_activate_count:
 					#print("Max ", max_count, " comparing ", self.trr_samples[i][2] )
-					max_count = self.trr_samples[i][2]
 					aggr = i
-			aggr_bank = self.trr_samples[aggr][0]
-			aggr_row = self.trr_samples[aggr][1]
-			self.target_row_refresh(aggr_bank, aggr_row)
-			self.trr_hash_write(aggr_row, False)
-			self.trr_samples[aggr] = [0, 0, 0, 0]
+			if aggr != -1:		
+				aggr_bank = self.trr_samples[aggr][0]
+				aggr_row = self.trr_samples[aggr][1]
+				self.target_row_refresh(aggr_bank, aggr_row)
+				self.trr_hash_write(aggr_row, False)
+				self.trr_samples[aggr] = [0, 0, 0, 0]
 			# self.precharge(bank)
 		return
 
 	def target_row_refresh(self, bank, row):
 		''' refresh target row's neighbors by activating it'''
 		print("Target Refreshing row", row, "of", bank, "bank")
+		print(self.trr_samples)
 		# for bank in range(self.num_banks):
-		self.activate(bank, row-1)
-		self.activate(bank, row+1)
+		random_num = random.randrange(0, 1)
+		if random_num == 1:
+			self.activate(bank, row-1)
+		else:
+			self.activate(bank, row+1)
 			# self.precharge(bank)
 		return
