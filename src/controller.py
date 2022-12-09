@@ -61,7 +61,7 @@ class MemoryBus():
 		self.dram.refresh(commandseq.bank, commandseq.row)
 		commandseq.op_running = False
 		if callback != None:
-			callback(commandseq.bank)
+			callback(commandseq.bank, None)
 
 	def close_row(self, commandseq, callback):
 		#print("close", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
