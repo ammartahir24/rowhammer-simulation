@@ -43,9 +43,9 @@ rows = 2**row_bits
 columns = 2**col_bits
 cells = 8 #bits
 
-in_dram_trr = False
+in_dram_trr = True
 trr_samples = 4
-maximum_activate_count = 15000
+maximum_activate_count = 10000
 count_min_size = [4, 6] #[hash rows, hash columns]
 
 """ Memory controller params"""

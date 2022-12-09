@@ -57,7 +57,7 @@ class MemoryBus():
 			callback(commandseq.bank, commandseq.row)
 
 	def refresh(self, commandseq, callback):
-		print("refresh", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
+		#print("refresh", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.dram.refresh(commandseq.bank, commandseq.row)
 		commandseq.op_running = False
 		if callback != None:

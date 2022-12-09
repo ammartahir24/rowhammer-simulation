@@ -91,7 +91,7 @@ class DRAM():
 		self.cells = [[[Cell(self.Clock) for k in range(num_columns)] for j in range(num_rows)] for i in range(num_banks)]
 		self.row_buffers = [[None, 0, 0] for k in range(num_banks)] # (Row number, activation time, activation time interval)
 		self.trr_samples = [[0, 0, 0, 0] for k in range(cfg.trr_samples)] # [bank, row, activations, last accessed]
-		self.cm_table = [[0 for k in range(cfg.count_min_size[1])] for k in range(cfg.count_min_size[0])]
+		self.cm_table = [[[0 for k in range(cfg.count_min_size[1])] for j in range(cfg.count_min_size[0])] for i in range(self.num_banks)]
 		print("DRAM __init__")
 
 	def activate(self, bank, row):
@@ -114,21 +114,21 @@ class DRAM():
 			self.trr_check(bank, row)
 		return
 
-	def trr_hash_read(self, row):
+	def trr_hash_read(self, bank, row):
 		min_count = 999999999
 		for i in range(cfg.count_min_size[0]):
 			index = (row + (2*i)) % cfg.count_min_size[1]
-			if self.cm_table[i][index] < min_count:
-				min_count = self.cm_table[i][index]
+			if self.cm_table[bank][i][index] < min_count:
+				min_count = self.cm_table[bank][i][index]
 		return min_count
 
-	def trr_hash_write(self, row, incr):
+	def trr_hash_write(self, bank, row, incr):
 		for i in range(cfg.count_min_size[0]):
 			index = (row + (2*i)) % cfg.count_min_size[1]
 			if incr:
-				self.cm_table[i][index] += 1
+				self.cm_table[bank][i][index] += 1
 			else: 
-				self.cm_table[i][index] = 0
+				self.cm_table[bank][i][index] = 0
 
 	def trr_check(self, bank, row):
 		found = False
@@ -140,10 +140,10 @@ class DRAM():
 				#print("Found activation count for bank ", bank, " row ", row, " value = ", self.trr_samples[i][2])
 				self.trr_samples[i][2] = self.trr_samples[i][2]+1
 				self.trr_samples[i][3] = self.Clock.get_clock()
-				self.trr_hash_write(row, True)
+				self.trr_hash_write(bank, row, True)
 				found_ind = i
 				found = True
-			hash_count = self.trr_hash_read(self.trr_samples[i][1])
+			hash_count = self.trr_hash_read(self.trr_samples[i][0], self.trr_samples[i][1])
 			#print("count ", hash_count, " row ", self.trr_samples[i][1])
 			if hash_count < min_count:
 				min_count = hash_count
@@ -152,7 +152,7 @@ class DRAM():
 			#print("Starting sample for bank ", bank, " row ", row, " at ind ", evict, " old row was ", self.trr_samples[i][1])
 			self.trr_samples[evict] = [bank, row, 1, self.Clock.get_clock()]
 			#print(self.trr_samples)
-			self.trr_hash_write(row, True)
+			self.trr_hash_write(bank, row, True)
 		
 		return
 
@@ -231,11 +231,13 @@ class DRAM():
 				if self.trr_samples[i][2] > cfg.maximum_activate_count:
 					#print("Max ", max_count, " comparing ", self.trr_samples[i][2] )
 					aggr = i
+			#print(self.trr_samples)
+			#print(aggr)
 			if aggr != -1:		
 				aggr_bank = self.trr_samples[aggr][0]
 				aggr_row = self.trr_samples[aggr][1]
 				self.target_row_refresh(aggr_bank, aggr_row)
-				self.trr_hash_write(aggr_row, False)
+				self.trr_hash_write(aggr_bank, aggr_row, False)
 				self.trr_samples[aggr] = [0, 0, 0, 0]
 			# self.precharge(bank)
 		return
@@ -243,9 +245,10 @@ class DRAM():
 	def target_row_refresh(self, bank, row):
 		''' refresh target row's neighbors by activating it'''
 		# print("Target Refreshing row", row, "of", bank, "bank")
-		print("Target Refreshing row", row, "of", bank, "bank")
-		print(self.trr_samples)
+		#print("Target Refreshing row", row, "of", bank, "bank")
+		#print(self.trr_samples)
 		# for bank in range(self.num_banks):
+		"""
 		random_num = random.randrange(0, 1)
 		if random_num == 1:
 			if row-1 >= 0:
@@ -258,4 +261,9 @@ class DRAM():
 			else:
 				self.activate(bank, row-1)
 			# self.precharge(bank)
+		"""
+		if row-1 >= 0:
+			self.activate(bank, row-1)
+		if row+1 < self.num_rows:
+			self.activate(bank, row+1)
 		return
