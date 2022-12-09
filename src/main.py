@@ -12,7 +12,7 @@ def p1_read(commandseq, value):
 	print(clock.get_clock(), "read callback", hex(commandseq.address), bin(value))
 
 
-"""
+
 # victim address: pick 10th row
 # row:001010 bank:00 col:001 = 1401
 v_addr = 0x0000140
@@ -50,8 +50,8 @@ for row_addr in r_addrs:
 program2 = Program(clock, memory, 2)
 program2.cmd(program2.write, (ag_addr1, 255), 20)
 program2.cmd(program2.write, (ag_addr2, 128), 10)
-program2.cmd(program2.read, (ag_addr1, None), 50, period = 80, repeat = 20000)
-program2.cmd(program2.read, (ag_addr2, None), 55, period = 80, repeat = 20000)
+program2.cmd(program2.read, (ag_addr1, None), 50, period = 80, repeat = 50000)
+program2.cmd(program2.read, (ag_addr2, None), 55, period = 80, repeat = 50000)
 #program2.cmd(program2.read, (ag_addr3, None), 60, period = 80, repeat = 20000)
 #program2.cmd(program2.read, (ag_addr4, None), 65, period = 80, repeat = 20000)
 #program2.cmd(program2.read, (ag_addr5, None), 70, period = 80, repeat = 20000)
