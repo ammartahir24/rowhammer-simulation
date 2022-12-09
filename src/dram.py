@@ -210,8 +210,8 @@ class DRAM():
 						#self.cells[bank][row_vict][column].B_tot = self.cells[bank][row_vict][column].B_tot + self.row_buffers[bank][2] 
 						#print("before agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						self.cells[bank][row_vict][column].update_V_s_agg(activation_time)
-						if (bank == 0 and row_vict < 16 and row_vict >= 3):
-							print ("V_s for row", row_vict, " column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
+						#if (bank == 0 and row_vict < 16 and row_vict >= 3):
+							#print ("V_s for row", row_vict, " column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
 						#print("after agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						pass
 		# remove row buffer from bank

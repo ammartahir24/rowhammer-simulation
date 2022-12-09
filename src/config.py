@@ -22,7 +22,7 @@ y = 0 if x is even
 
 """
 
-a = .2
+a = .21
 b = 1.8
 
 """ DRAM timing parameters (ns) """
