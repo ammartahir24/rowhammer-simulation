@@ -38,7 +38,7 @@ class MemoryBus():
 			callback(commandseq, value)
 
 	def write(self, commandseq, callback):
-		print("write", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
+		# print("write", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
 		self.occupancy -= 1
 		value = commandseq.value
 		for i in range(8):
@@ -214,6 +214,7 @@ class MemoryController():
 
 
 	def operate(self):
+		# print(self.clock.get_clock(), "operate")
 		# refreshing done here by reading all bank's row
 		for ref in self.extra_refreshes:
 			commands = CommandSequence(self.clock.get_clock(), callback=None)
@@ -221,6 +222,7 @@ class MemoryController():
 			self.commands_queue.insert(0,commands)
 		self.extra_refreshes = []
 		if self.clock.get_clock() % int(self.configs.refresh_freq / self.configs.rows) == 0:
+			# print(self.clock.get_clock(), self.configs.refresh_freq, self.configs.rows, int(self.configs.refresh_freq / self.configs.rows))
 			for i in range(self.configs.banks):
 				commands = CommandSequence(self.clock.get_clock(), callback=None)
 				commands.refresh_sequence(i, self.last_refresh_row, 0)
@@ -233,7 +235,7 @@ class MemoryController():
 			# print("MemoryController: ", self.clock.get_clock(), command, args[0].bank, args[0].row, args[0].column)
 			self.clock.schedule(command, args, run_time=runtime)
 			task = self.fcfs()
-		self.clock.schedule(self.operate, None, run_time=1)
+		self.clock.schedule(self.operate, None, run_time=0)
 
 	def malloc(self, user, size):
 		# allocate memory

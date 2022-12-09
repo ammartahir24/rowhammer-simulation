@@ -36,8 +36,8 @@ class Program():
 		for e in self.events:
 			func, args = e.next(self.clock.get_clock())
 			if func != None:
-				if self.user == 1:
-					print("Program for", self.user, ":", func, args)
+				# if self.user == 1:
+					# print("Program for", self.user, ":", func, args)
 				self.clock.schedule(func, args, run_time=1)
 			if e.i >= e.repeat:
 				self.events.remove(e)

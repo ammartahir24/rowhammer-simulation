@@ -27,9 +27,9 @@ b = 1.8
 
 """ DRAM timing parameters (ns) """
 
-activation_time = 37.5
+activation_time = 38
 read_time = 15
-write_time = 11.25
+write_time = 11
 precharge_time = 15
 
 """ DRAM Parameters """

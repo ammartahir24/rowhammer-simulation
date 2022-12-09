@@ -27,6 +27,7 @@ class Clock():
 				break
 			index += 1
 		self.events.insert(index, Event(time, func, args))
+		# print("New events now", self.tick, [(e.scheduled_time, e.target_function) for e in self.events])
 
 	def get_clock(self):
 		return self.tick
@@ -35,9 +36,11 @@ class Clock():
 		return self.tick * (10**-9)
 
 	def tick_clock(self):
+		# print("Scheduled events now", self.tick, [(e.scheduled_time, e.target_function) for e in self.events])
 		if self.tick % 100000 == 0:
-			print(self.tick, ": events in queue", len(self.events))
-		for e in self.events:
+			print(self.tick, ": events in queue", len([(e.scheduled_time, e.target_function) for e in self.events]))
+		temp_events = [e for e in self.events]
+		for e in temp_events:
 			if e.scheduled_time <= self.tick:
 				# print(self.tick, end=": ")
 				# print(e.target_function, e.function_args)
@@ -49,8 +52,11 @@ class Clock():
 					else:
 						e.target_function(e.function_args)
 				self.events.remove(e)
-			if e.scheduled_time > self.tick:
+			else:
+				# print(self.tick, end=": Stopping tick: ")
+				# print(e.target_function, e.function_args, e.scheduled_time)
 				break
+		# print("Unscheduled events now", self.tick, [(e.scheduled_time, e.target_function) for e in self.events])
 		self.tick += 1
 
 	def simulate(self, simul_time):

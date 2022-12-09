@@ -166,14 +166,14 @@ class DRAM():
 		# read cell
 		#print("DRAM READ", bank, row, column)
 		value = self.cells[bank][row][column].read()
-		if (bank == 0 and row == 3 and column >=8 and column <= 15):
-			print("Reading cell " + str(bank) + " " + str(column) + " = " + str(self.cells[bank][row][column].V_s))
+		# if (bank == 0 and row == 3 and column >=8 and column <= 15):
+		# 	print("Reading cell " + str(bank) + " " + str(column) + " = " + str(self.cells[bank][row][column].V_s))
 		return value
 
 	def write(self, bank, column, value):
 		''' write value to column of row bank'''
 		row = self.row_buffers[bank][0]
-		print("Write cell bank ", bank, " row ", row, " column ", column, " = ", value)
+		# print("Write cell bank ", bank, " row ", row, " column ", column, " = ", value)
 		# write cell
 		#print("DRAM WRITE", bank, row, column)
 		self.cells[bank][row][column].write(value)
@@ -210,8 +210,8 @@ class DRAM():
 						#self.cells[bank][row_vict][column].B_tot = self.cells[bank][row_vict][column].B_tot + self.row_buffers[bank][2] 
 						#print("before agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						self.cells[bank][row_vict][column].update_V_s_agg(activation_time)
-						if (bank == 0 and row_vict < 16 and row_vict >= 3):
-							print ("V_s for row", row_vict, " column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
+						# if (bank == 0 and row_vict < 16 and row_vict >= 3):
+							# print ("V_s for row", row_vict, " column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
 						#print("after agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						pass
 		# remove row buffer from bank
@@ -222,7 +222,7 @@ class DRAM():
 	def refresh(self, bank, row):
 		''' refresh all bank's row by activating and precharging it'''
 		# activate and precharge row in all banks
-		print("Refreshing row", row, "of", bank, "bank")
+		# print("Refreshing row", row, "of", bank, "bank")
 		# for bank in range(self.num_banks):
 		self.activate(bank, row)
 		if cfg.in_dram_trr:
@@ -243,7 +243,7 @@ class DRAM():
 
 	def target_row_refresh(self, bank, row):
 		''' refresh target row's neighbors by activating it'''
-		print("Target Refreshing row", row, "of", bank, "bank")
+		# print("Target Refreshing row", row, "of", bank, "bank")
 		# for bank in range(self.num_banks):
 		self.activate(bank, row-1)
 		self.activate(bank, row+1)
