@@ -67,3 +67,4 @@ b = 2.5
 refresh_freq = 4000000
 mc_ptrr = True
 trr_mac = 1
+ptrr_ref_rows = 2

@@ -129,7 +129,8 @@ class MemoryController():
 			time_1 = self.configs.activation_time + self.configs.read_time + self.configs.precharge_time
 			max_activations = self.configs.refresh_freq / time_1
 			if random.randrange(int(max_activations / self.configs.trr_mac)) != 0:
-				self.extra_refreshes.append((bank, row))
+				self.extra_refreshes += [(row-i-1, bank) for i in range(self.configs.trr_ref_rows) if row-i-1>=0]
+				self.extra_refreshes += [(row+i+1, bank) for i in range(self.configs.trr_ref_rows) if row+i+1<self.configs.rows]
 
 	def fcfs(self):
 		# first come first serve scheduler
