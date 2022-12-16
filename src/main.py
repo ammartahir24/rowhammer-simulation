@@ -49,7 +49,7 @@ for row_addr in r_addrs:
 #aggressor program
 program2 = Program(clock, memory, 2)
 program2.cmd(program2.write, (ag_addr1, 255), 20)
-program2.cmd(program2.write, (ag_addr2, 128), 10)
+program2.cmd(program2.write, (ag_addr2, 255), 10)
 program2.cmd(program2.read, (ag_addr1, None), 50, period = 80, repeat = 50000)
 program2.cmd(program2.read, (ag_addr2, None), 55, period = 80, repeat = 50000)
 #program2.cmd(program2.read, (ag_addr3, None), 60, period = 80, repeat = 20000)

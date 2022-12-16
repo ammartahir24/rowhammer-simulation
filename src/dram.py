@@ -69,10 +69,12 @@ class Cell():
 		return
 	def get_value(self):
 		""" return value interpreted by SA """
-		if (self.V_s >= cfg.VDD/2):
+		if (self.V_s >= (cfg.VDD/2) + cfg.VDD*0.05):
 			return 1
-		else:
+		elif (self.V_s <= (cfg.VDD/2) - cfg.VDD*0.05):
 			return 0
+		else: 
+			return random.randrange(0,2)
 	def set_value(self, value):
 		if (value == 1):
 			self.V_s = cfg.VDD
@@ -98,15 +100,18 @@ class DRAM():
 		''' opens a row: transfers a row from bank to its row buffer'''
 		# update row buffer for bank
 		self.row_buffers[bank][0] = row
-		# print("Activating bank, row: " + str(bank) + ", " + str(row))
+		#print("Activating bank, row: " + str(bank) + ", " + str(row))
 		# update activation time as current time
 		#print("DRAM Activate", bank, row)
 		self.row_buffers[bank][1] = self.Clock.get_clock()
 		#TODO switch updates to here instead of reads/writes
 		for column in range(self.num_columns):
 			#self.cells[bank][row][column].update_t_N()
-			#print("Current charge for bank ", bank, " row ", row, " = ", self.cells[bank][row][column].V_s)
+			#if bank == 0 and row != 9 and row != 11 and row >=0 and row <= 21:
+			#	print("Current charge for bank ", bank, " row ", row, "column ", column, " = ", self.cells[bank][row][column].V_s)
 			self.cells[bank][row][column].update_V_s_leakage()
+			#if bank == 0 and row != 9 and row != 11 and row >=0 and row <= 21:
+			#	print("Later charge for bank ", bank, " row ", row, "column ", column, " = ", self.cells[bank][row][column].V_s)
 			self.cells[bank][row][column].refresh()
 
 		#if in-dram trr enabled, sample for aggressor activations
@@ -209,9 +214,11 @@ class DRAM():
 						#self.cells[bank][row_vict][column].N_att += 1
 						#self.cells[bank][row_vict][column].B_tot = self.cells[bank][row_vict][column].B_tot + self.row_buffers[bank][2] 
 						#print("before agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
+						#if (bank == 0 and row_vict < 22 and row_vict >= 0):
+						#	print ("Before V_s for row", row_vict, " column ", column, " after toggle from row ", row, " with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
 						self.cells[bank][row_vict][column].update_V_s_agg(activation_time)
-						#if (bank == 0 and row_vict < 16 and row_vict >= 3):
-							#print ("V_s for row", row_vict, " column ", column, " after toggle with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
+						#if (bank == 0 and row_vict < 22 and row_vict >= 0):
+						#	print ("After V_s activation time ", activation_time, " for row ", row_vict, " column ", column, " after toggle from row ", row, " with probability ", random_num, " out of ", (probability_toggle*100000/self.num_columns), " = ", self.cells[bank][row_vict][column].V_s)
 						#print("after agg toggle: V_s = ", self.cells[bank][row_vict][column].V_s)
 						pass
 		# remove row buffer from bank
@@ -222,7 +229,7 @@ class DRAM():
 	def refresh(self, bank, row):
 		''' refresh all bank's row by activating and precharging it'''
 		# activate and precharge row in all banks
-		# print("Refreshing row", row, "of", bank, "bank")
+		#print("Refreshing row", row, "of", bank, "bank")
 		# for bank in range(self.num_banks):
 		self.activate(bank, row)
 		if cfg.in_dram_trr:
