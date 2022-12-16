@@ -22,8 +22,8 @@ y = 0 if x is even
 
 """
 
-a = .02 #was .12
-b = 2.0
+a = .003 #was .12
+b = 1.3
 
 """ DRAM timing parameters (ns) """
 

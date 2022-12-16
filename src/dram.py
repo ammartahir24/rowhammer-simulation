@@ -69,9 +69,9 @@ class Cell():
 		return
 	def get_value(self):
 		""" return value interpreted by SA """
-		if (self.V_s >= (cfg.VDD/2) + cfg.VDD*0.05):
+		if (self.V_s >= (cfg.VDD/2) + cfg.VDD*0.1):
 			return 1
-		elif (self.V_s <= (cfg.VDD/2) - cfg.VDD*0.05):
+		elif (self.V_s <= (cfg.VDD/2) - cfg.VDD*0.1):
 			return 0
 		else: 
 			return random.randrange(0,2)
