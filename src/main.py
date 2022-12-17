@@ -9,7 +9,7 @@ memory = MemoryController(cfg, clock)
 
 def p1_read(commandseq, value):
 	global clock
-	print(clock.get_clock(), "read callback", hex(commandseq.address), bin(value))
+	print(clock.get_clock(), "read callback", hex(commandseq.address), bin(value), "time taken (ns):", commandseq.completion_time - commandseq.arrival_time)
 
 
 
@@ -35,12 +35,14 @@ r_addrs = [0x0000000, 0x0000020, 0x0000040, 0x0000060, 0x0000080, 0x00000A0, 0x0
 # victim program
 print("Start")
 program1 = Program(clock, memory, 1)
+t = 0
 for row_addr in r_addrs:
 	addr = row_addr
 	for column in range(2**(cfg.col_bits)):
-		program1.cmd(program1.write, (addr, 255), 10)
-		program1.cmd(program1.read, (addr, p1_read), 50)
-		program1.cmd(program1.read, (addr, p1_read), 19900000)
+		program1.cmd(program1.write, (addr, 255), 10+t*50)
+		program1.cmd(program1.read, (addr, p1_read), 50+t*50)
+		program1.cmd(program1.read, (addr, p1_read), 19900000+t*50)
+		t+=1
 		addr = addr + 1
 #program1.cmd(program1.write, (v_addr, 255), 10)
 #program1.cmd(program1.read, (v_addr, p1_read), 50)
@@ -50,8 +52,8 @@ for row_addr in r_addrs:
 program2 = Program(clock, memory, 2)
 program2.cmd(program2.write, (ag_addr1, 255), 20)
 program2.cmd(program2.write, (ag_addr2, 255), 10)
-program2.cmd(program2.read, (ag_addr1, None), 50, period = 80, repeat = 50000)
-program2.cmd(program2.read, (ag_addr2, None), 55, period = 80, repeat = 50000)
+program2.cmd(program2.read, (ag_addr1, None), 20000, period = 80, repeat = 50000)
+program2.cmd(program2.read, (ag_addr2, None), 20050, period = 80, repeat = 50000)
 #program2.cmd(program2.read, (ag_addr3, None), 60, period = 80, repeat = 20000)
 #program2.cmd(program2.read, (ag_addr4, None), 65, period = 80, repeat = 20000)
 #program2.cmd(program2.read, (ag_addr5, None), 70, period = 80, repeat = 20000)
