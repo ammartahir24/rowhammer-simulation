@@ -11,7 +11,9 @@ def p1_read(commandseq, value):
 	global clock
 	print(clock.get_clock(), "read callback", hex(commandseq.address), bin(value), "time taken (ns):", commandseq.completion_time - commandseq.arrival_time)
 
-
+def print_row_refreshes():
+	global clock, memory
+	print("Number of refreshes:", memory.dram.total_refreshes)
 
 # victim address: pick 10th row
 # row:001010 bank:00 col:001 = 1401
@@ -60,6 +62,7 @@ program2.cmd(program2.read, (ag_addr2, None), 20050, period = 80, repeat = 50000
 #program2.cmd(program2.read, (ag_addr6, None), 75, period = 80, repeat = 20000)
 #program2.cmd(program2.read, (ag_addr7, None), 80, period = 80, repeat = 20000)
 
+clock.schedule(print_row_refreshes, None, run_time=19000000)
 
 clock.simulate(20000000)
 
