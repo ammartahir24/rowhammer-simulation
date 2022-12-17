@@ -94,6 +94,8 @@ class DRAM():
 		self.row_buffers = [[None, 0, 0] for k in range(num_banks)] # (Row number, activation time, activation time interval)
 		self.trr_samples = [[0, 0, 0, 0] for k in range(cfg.trr_samples)] # [bank, row, activations, last accessed]
 		self.cm_table = [[[0 for k in range(cfg.count_min_size[1])] for j in range(cfg.count_min_size[0])] for i in range(self.num_banks)]
+		#for analysis
+		self.total_refreshes = 0
 		print("DRAM __init__")
 
 	def activate(self, bank, row):
@@ -232,6 +234,7 @@ class DRAM():
 		#print("Refreshing row", row, "of", bank, "bank")
 		# for bank in range(self.num_banks):
 		self.activate(bank, row)
+		self.total_refreshes += 1
 		if cfg.in_dram_trr:
 			aggr = -1
 			for i in range(cfg.trr_samples):
@@ -271,6 +274,8 @@ class DRAM():
 		"""
 		if row-1 >= 0:
 			self.activate(bank, row-1)
+			self.total_refreshes += 1
 		if row+1 < self.num_rows:
 			self.activate(bank, row+1)
+			self.total_refreshes += 1
 		return

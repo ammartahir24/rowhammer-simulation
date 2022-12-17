@@ -22,8 +22,8 @@ y = 0 if x is even
 
 """
 
-a = .003 #was .12
-b = 1.3
+a = .008 #was .12
+b = 1.5
 
 """ DRAM timing parameters (ns) """
 
@@ -45,7 +45,7 @@ cells = 8 #bits
 
 in_dram_trr = False
 trr_samples = 4
-maximum_activate_count = 10000
+maximum_activate_count = 15000
 count_min_size = [4, 6] #[hash rows, hash columns]
 
 """ Memory controller params"""
