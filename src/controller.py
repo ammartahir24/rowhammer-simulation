@@ -61,7 +61,7 @@ class MemoryBus():
 		self.dram.refresh(commandseq.bank, commandseq.row)
 		commandseq.op_running = False
 		if callback != None:
-			callback(commandseq.bank, None)
+			callback(commandseq.bank, commandseq.row)
 
 	def close_row(self, commandseq, callback):
 		#print("close", commandseq.bank, commandseq.row, commandseq.column, self.clock.get_clock())
@@ -129,8 +129,8 @@ class MemoryController():
 			time_1 = self.configs.activation_time + self.configs.read_time + self.configs.precharge_time
 			max_activations = self.configs.refresh_freq / time_1
 			if random.randrange(int(max_activations / self.configs.ptrr_mac)) != 0:
-				self.extra_refreshes += [(row-i-1, bank) for i in range(self.configs.trr_ref_rows) if row-i-1>=0]
-				self.extra_refreshes += [(row+i+1, bank) for i in range(self.configs.trr_ref_rows) if row+i+1<self.configs.rows]
+				self.extra_refreshes += [(row-i-1, bank) for i in range(self.configs.ptrr_ref_rows) if row-i-1>=0]
+				self.extra_refreshes += [(row+i+1, bank) for i in range(self.configs.ptrr_ref_rows) if row+i+1<self.configs.rows]
 
 	def fcfs(self):
 		# first come first serve scheduler
@@ -171,7 +171,7 @@ class MemoryController():
 						# self.bank_count[req.bank] += 1
 						self.bank_status[req.bank] = "fetching"
 						del req.commandseq[0]
-						return self.bus.refresh, (req, self.row_activate_cb), req.next_op_time
+						return self.bus.refresh, (req, None), req.next_op_time
 					elif req.commandseq[0][0] == "precharge":
 						del req.commandseq[0]
 						self.bank_count[req.bank] -= 1
@@ -179,7 +179,6 @@ class MemoryController():
 
 		if len(self.commands_queue) > 0:
 			req = self.commands_queue[0]
-			# print(req.commandseq)
 			if req.row == self.opened_rows[req.bank]:
 				# print("row is open", req.commandseq)
 				if req.commandseq[0][0] == "activate" or req.commandseq[0][0] == "refresh":
@@ -219,7 +218,7 @@ class MemoryController():
 		# refreshing done here by reading all bank's row
 		for ref in self.extra_refreshes:
 			commands = CommandSequence(self.clock.get_clock(), callback=None)
-			commands.refresh_sequence(ref[0], ref[1], 0)
+			commands.refresh_sequence(ref[1], ref[0], 0)
 			self.commands_queue.insert(0,commands)
 		self.extra_refreshes = []
 		if self.clock.get_clock() % int(self.configs.refresh_freq / self.configs.rows) == 0:
