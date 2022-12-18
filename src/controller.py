@@ -129,7 +129,7 @@ class MemoryController():
 			time_1 = self.configs.activation_time + self.configs.read_time + self.configs.precharge_time
 			max_activations = self.configs.refresh_freq / time_1
 			if random.randrange(int(max_activations / self.configs.ptrr_mac)) != 0:
-				if random.randrange(1000) < 50:
+				if random.randrange(1000) < 20:
 					self.extra_refreshes += [(row-i-1, bank) for i in range(self.configs.ptrr_ref_rows) if row-i-1>=0]
 					self.extra_refreshes += [(row+i+1, bank) for i in range(self.configs.ptrr_ref_rows) if row+i+1<self.configs.rows]
 
