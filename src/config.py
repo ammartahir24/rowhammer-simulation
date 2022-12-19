@@ -68,3 +68,7 @@ refresh_freq = 6400000
 mc_ptrr = False
 ptrr_mac = 15000
 ptrr_ref_rows = 2
+
+
+para = True
+para_ref_rows = 3
