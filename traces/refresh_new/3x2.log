@@ -1,0 +1,541 @@
+Clock __init__
+DRAM __init__
+MemoryController __init__
+Start
+0 : events in queue 4
+228 read callback 0x0 0b11111111 time taken (ns): 177
+228 read callback 0x1 0b11111111 time taken (ns): 127
+228 read callback 0x2 0b11111111 time taken (ns): 77
+228 read callback 0x3 0b11111111 time taken (ns): 27
+267 read callback 0x4 0b11111111 time taken (ns): 16
+317 read callback 0x5 0b11111111 time taken (ns): 16
+367 read callback 0x6 0b11111111 time taken (ns): 16
+417 read callback 0x7 0b11111111 time taken (ns): 16
+488 read callback 0x20 0b11111111 time taken (ns): 37
+517 read callback 0x21 0b11111111 time taken (ns): 16
+567 read callback 0x22 0b11111111 time taken (ns): 16
+617 read callback 0x23 0b11111111 time taken (ns): 16
+667 read callback 0x24 0b11111111 time taken (ns): 16
+717 read callback 0x25 0b11111111 time taken (ns): 16
+767 read callback 0x26 0b11111111 time taken (ns): 16
+817 read callback 0x27 0b11111111 time taken (ns): 16
+888 read callback 0x40 0b11111111 time taken (ns): 37
+917 read callback 0x41 0b11111111 time taken (ns): 16
+967 read callback 0x42 0b11111111 time taken (ns): 16
+1017 read callback 0x43 0b11111111 time taken (ns): 16
+1067 read callback 0x44 0b11111111 time taken (ns): 16
+1117 read callback 0x45 0b11111111 time taken (ns): 16
+1167 read callback 0x46 0b11111111 time taken (ns): 16
+1217 read callback 0x47 0b11111111 time taken (ns): 16
+1288 read callback 0x60 0b11111111 time taken (ns): 37
+1317 read callback 0x61 0b11111111 time taken (ns): 16
+1367 read callback 0x62 0b11111111 time taken (ns): 16
+1417 read callback 0x63 0b11111111 time taken (ns): 16
+1467 read callback 0x64 0b11111111 time taken (ns): 16
+1517 read callback 0x65 0b11111111 time taken (ns): 16
+1567 read callback 0x66 0b11111111 time taken (ns): 16
+1617 read callback 0x67 0b11111111 time taken (ns): 16
+1688 read callback 0x80 0b11111111 time taken (ns): 37
+1717 read callback 0x81 0b11111111 time taken (ns): 16
+1767 read callback 0x82 0b11111111 time taken (ns): 16
+1817 read callback 0x83 0b11111111 time taken (ns): 16
+1867 read callback 0x84 0b11111111 time taken (ns): 16
+1917 read callback 0x85 0b11111111 time taken (ns): 16
+1967 read callback 0x86 0b11111111 time taken (ns): 16
+2017 read callback 0x87 0b11111111 time taken (ns): 16
+2088 read callback 0xa0 0b11111111 time taken (ns): 37
+2117 read callback 0xa1 0b11111111 time taken (ns): 16
+2167 read callback 0xa2 0b11111111 time taken (ns): 16
+2217 read callback 0xa3 0b11111111 time taken (ns): 16
+2267 read callback 0xa4 0b11111111 time taken (ns): 16
+2317 read callback 0xa5 0b11111111 time taken (ns): 16
+2367 read callback 0xa6 0b11111111 time taken (ns): 16
+2417 read callback 0xa7 0b11111111 time taken (ns): 16
+2488 read callback 0xc0 0b11111111 time taken (ns): 37
+2517 read callback 0xc1 0b11111111 time taken (ns): 16
+2567 read callback 0xc2 0b11111111 time taken (ns): 16
+2617 read callback 0xc3 0b11111111 time taken (ns): 16
+2667 read callback 0xc4 0b11111111 time taken (ns): 16
+2717 read callback 0xc5 0b11111111 time taken (ns): 16
+2767 read callback 0xc6 0b11111111 time taken (ns): 16
+2817 read callback 0xc7 0b11111111 time taken (ns): 16
+2888 read callback 0xe0 0b11111111 time taken (ns): 37
+2917 read callback 0xe1 0b11111111 time taken (ns): 16
+2967 read callback 0xe2 0b11111111 time taken (ns): 16
+3017 read callback 0xe3 0b11111111 time taken (ns): 16
+3067 read callback 0xe4 0b11111111 time taken (ns): 16
+3117 read callback 0xe5 0b11111111 time taken (ns): 16
+3167 read callback 0xe6 0b11111111 time taken (ns): 16
+3217 read callback 0xe7 0b11111111 time taken (ns): 16
+3288 read callback 0x100 0b11111111 time taken (ns): 37
+3317 read callback 0x101 0b11111111 time taken (ns): 16
+3367 read callback 0x102 0b11111111 time taken (ns): 16
+3417 read callback 0x103 0b11111111 time taken (ns): 16
+3467 read callback 0x104 0b11111111 time taken (ns): 16
+3517 read callback 0x105 0b11111111 time taken (ns): 16
+3567 read callback 0x106 0b11111111 time taken (ns): 16
+3617 read callback 0x107 0b11111111 time taken (ns): 16
+3688 read callback 0x120 0b11111111 time taken (ns): 37
+3717 read callback 0x121 0b11111111 time taken (ns): 16
+3767 read callback 0x122 0b11111111 time taken (ns): 16
+3817 read callback 0x123 0b11111111 time taken (ns): 16
+3867 read callback 0x124 0b11111111 time taken (ns): 16
+3917 read callback 0x125 0b11111111 time taken (ns): 16
+3967 read callback 0x126 0b11111111 time taken (ns): 16
+4017 read callback 0x127 0b11111111 time taken (ns): 16
+4088 read callback 0x140 0b11111111 time taken (ns): 37
+4117 read callback 0x141 0b11111111 time taken (ns): 16
+4167 read callback 0x142 0b11111111 time taken (ns): 16
+4217 read callback 0x143 0b11111111 time taken (ns): 16
+4267 read callback 0x144 0b11111111 time taken (ns): 16
+4317 read callback 0x145 0b11111111 time taken (ns): 16
+4367 read callback 0x146 0b11111111 time taken (ns): 16
+4417 read callback 0x147 0b11111111 time taken (ns): 16
+4488 read callback 0x160 0b11111111 time taken (ns): 37
+4517 read callback 0x161 0b11111111 time taken (ns): 16
+4567 read callback 0x162 0b11111111 time taken (ns): 16
+4617 read callback 0x163 0b11111111 time taken (ns): 16
+4667 read callback 0x164 0b11111111 time taken (ns): 16
+4717 read callback 0x165 0b11111111 time taken (ns): 16
+4767 read callback 0x166 0b11111111 time taken (ns): 16
+4817 read callback 0x167 0b11111111 time taken (ns): 16
+4888 read callback 0x180 0b11111111 time taken (ns): 37
+4917 read callback 0x181 0b11111111 time taken (ns): 16
+4967 read callback 0x182 0b11111111 time taken (ns): 16
+5017 read callback 0x183 0b11111111 time taken (ns): 16
+5067 read callback 0x184 0b11111111 time taken (ns): 16
+5117 read callback 0x185 0b11111111 time taken (ns): 16
+5167 read callback 0x186 0b11111111 time taken (ns): 16
+5217 read callback 0x187 0b11111111 time taken (ns): 16
+5288 read callback 0x1a0 0b11111111 time taken (ns): 37
+5317 read callback 0x1a1 0b11111111 time taken (ns): 16
+5367 read callback 0x1a2 0b11111111 time taken (ns): 16
+5417 read callback 0x1a3 0b11111111 time taken (ns): 16
+5467 read callback 0x1a4 0b11111111 time taken (ns): 16
+5517 read callback 0x1a5 0b11111111 time taken (ns): 16
+5567 read callback 0x1a6 0b11111111 time taken (ns): 16
+5617 read callback 0x1a7 0b11111111 time taken (ns): 16
+5688 read callback 0x1c0 0b11111111 time taken (ns): 37
+5717 read callback 0x1c1 0b11111111 time taken (ns): 16
+5767 read callback 0x1c2 0b11111111 time taken (ns): 16
+5817 read callback 0x1c3 0b11111111 time taken (ns): 16
+5867 read callback 0x1c4 0b11111111 time taken (ns): 16
+5917 read callback 0x1c5 0b11111111 time taken (ns): 16
+5967 read callback 0x1c6 0b11111111 time taken (ns): 16
+6017 read callback 0x1c7 0b11111111 time taken (ns): 16
+6088 read callback 0x1e0 0b11111111 time taken (ns): 37
+6117 read callback 0x1e1 0b11111111 time taken (ns): 16
+6167 read callback 0x1e2 0b11111111 time taken (ns): 16
+6217 read callback 0x1e3 0b11111111 time taken (ns): 16
+6267 read callback 0x1e4 0b11111111 time taken (ns): 16
+6317 read callback 0x1e5 0b11111111 time taken (ns): 16
+6367 read callback 0x1e6 0b11111111 time taken (ns): 16
+6417 read callback 0x1e7 0b11111111 time taken (ns): 16
+6488 read callback 0x200 0b11111111 time taken (ns): 37
+6517 read callback 0x201 0b11111111 time taken (ns): 16
+6567 read callback 0x202 0b11111111 time taken (ns): 16
+6617 read callback 0x203 0b11111111 time taken (ns): 16
+6667 read callback 0x204 0b11111111 time taken (ns): 16
+6717 read callback 0x205 0b11111111 time taken (ns): 16
+6767 read callback 0x206 0b11111111 time taken (ns): 16
+6817 read callback 0x207 0b11111111 time taken (ns): 16
+6888 read callback 0x220 0b11111111 time taken (ns): 37
+6917 read callback 0x221 0b11111111 time taken (ns): 16
+6967 read callback 0x222 0b11111111 time taken (ns): 16
+7017 read callback 0x223 0b11111111 time taken (ns): 16
+7067 read callback 0x224 0b11111111 time taken (ns): 16
+7117 read callback 0x225 0b11111111 time taken (ns): 16
+7167 read callback 0x226 0b11111111 time taken (ns): 16
+7217 read callback 0x227 0b11111111 time taken (ns): 16
+7288 read callback 0x240 0b11111111 time taken (ns): 37
+7317 read callback 0x241 0b11111111 time taken (ns): 16
+7367 read callback 0x242 0b11111111 time taken (ns): 16
+7417 read callback 0x243 0b11111111 time taken (ns): 16
+7467 read callback 0x244 0b11111111 time taken (ns): 16
+7517 read callback 0x245 0b11111111 time taken (ns): 16
+7567 read callback 0x246 0b11111111 time taken (ns): 16
+7617 read callback 0x247 0b11111111 time taken (ns): 16
+7688 read callback 0x260 0b11111111 time taken (ns): 37
+7717 read callback 0x261 0b11111111 time taken (ns): 16
+7767 read callback 0x262 0b11111111 time taken (ns): 16
+7817 read callback 0x263 0b11111111 time taken (ns): 16
+7867 read callback 0x264 0b11111111 time taken (ns): 16
+7917 read callback 0x265 0b11111111 time taken (ns): 16
+7967 read callback 0x266 0b11111111 time taken (ns): 16
+8017 read callback 0x267 0b11111111 time taken (ns): 16
+8088 read callback 0x280 0b11111111 time taken (ns): 37
+8117 read callback 0x281 0b11111111 time taken (ns): 16
+8167 read callback 0x282 0b11111111 time taken (ns): 16
+8217 read callback 0x283 0b11111111 time taken (ns): 16
+8267 read callback 0x284 0b11111111 time taken (ns): 16
+8317 read callback 0x285 0b11111111 time taken (ns): 16
+8367 read callback 0x286 0b11111111 time taken (ns): 16
+8417 read callback 0x287 0b11111111 time taken (ns): 16
+100000 : events in queue 5
+200000 : events in queue 5
+300000 : events in queue 5
+400000 : events in queue 4
+500000 : events in queue 5
+600000 : events in queue 4
+700000 : events in queue 5
+800000 : events in queue 5
+900000 : events in queue 5
+1000000 : events in queue 5
+1100000 : events in queue 5
+1200000 : events in queue 5
+1300000 : events in queue 5
+1400000 : events in queue 5
+1500000 : events in queue 5
+1600000 : events in queue 5
+1700000 : events in queue 5
+1800000 : events in queue 5
+1900000 : events in queue 5
+2000000 : events in queue 4
+2100000 : events in queue 8
+2200000 : events in queue 5
+2300000 : events in queue 5
+2400000 : events in queue 5
+2500000 : events in queue 5
+2600000 : events in queue 5
+2700000 : events in queue 5
+2800000 : events in queue 5
+2900000 : events in queue 5
+3000000 : events in queue 5
+3100000 : events in queue 5
+3200000 : events in queue 5
+3300000 : events in queue 5
+3400000 : events in queue 5
+3500000 : events in queue 5
+3600000 : events in queue 5
+3700000 : events in queue 5
+3800000 : events in queue 5
+3900000 : events in queue 5
+4000000 : events in queue 5
+4100000 : events in queue 5
+4200000 : events in queue 5
+4300000 : events in queue 5
+4400000 : events in queue 5
+4500000 : events in queue 5
+4600000 : events in queue 5
+4700000 : events in queue 5
+4800000 : events in queue 5
+4900000 : events in queue 5
+5000000 : events in queue 5
+5100000 : events in queue 5
+5200000 : events in queue 5
+5300000 : events in queue 5
+5400000 : events in queue 5
+5500000 : events in queue 5
+5600000 : events in queue 5
+5700000 : events in queue 4
+5800000 : events in queue 5
+5900000 : events in queue 5
+6000000 : events in queue 5
+6100000 : events in queue 5
+6200000 : events in queue 5
+6300000 : events in queue 5
+6400000 : events in queue 5
+6500000 : events in queue 5
+6600000 : events in queue 5
+6700000 : events in queue 4
+6800000 : events in queue 5
+6900000 : events in queue 5
+7000000 : events in queue 5
+7100000 : events in queue 5
+7200000 : events in queue 5
+7300000 : events in queue 4
+7400000 : events in queue 4
+7500000 : events in queue 4
+7600000 : events in queue 4
+7700000 : events in queue 4
+7800000 : events in queue 4
+7900000 : events in queue 4
+8000000 : events in queue 4
+8100000 : events in queue 4
+8200000 : events in queue 4
+8300000 : events in queue 4
+8400000 : events in queue 4
+8500000 : events in queue 4
+8600000 : events in queue 4
+8700000 : events in queue 4
+8800000 : events in queue 4
+8900000 : events in queue 4
+9000000 : events in queue 4
+9100000 : events in queue 4
+9200000 : events in queue 4
+9300000 : events in queue 4
+9400000 : events in queue 4
+9500000 : events in queue 4
+9600000 : events in queue 4
+9700000 : events in queue 4
+9800000 : events in queue 4
+9900000 : events in queue 4
+10000000 : events in queue 4
+10100000 : events in queue 4
+10200000 : events in queue 4
+10300000 : events in queue 4
+10400000 : events in queue 4
+10500000 : events in queue 4
+10600000 : events in queue 4
+10700000 : events in queue 4
+10800000 : events in queue 4
+10900000 : events in queue 4
+11000000 : events in queue 4
+11100000 : events in queue 4
+11200000 : events in queue 4
+11300000 : events in queue 4
+11400000 : events in queue 4
+11500000 : events in queue 4
+11600000 : events in queue 4
+11700000 : events in queue 4
+11800000 : events in queue 4
+11900000 : events in queue 4
+12000000 : events in queue 4
+12100000 : events in queue 4
+12200000 : events in queue 4
+12300000 : events in queue 4
+12400000 : events in queue 4
+12500000 : events in queue 4
+12600000 : events in queue 4
+12700000 : events in queue 4
+12800000 : events in queue 4
+12900000 : events in queue 4
+13000000 : events in queue 4
+13100000 : events in queue 4
+13200000 : events in queue 4
+13300000 : events in queue 4
+13400000 : events in queue 4
+13500000 : events in queue 4
+13600000 : events in queue 4
+13700000 : events in queue 4
+13800000 : events in queue 4
+13900000 : events in queue 4
+14000000 : events in queue 4
+14100000 : events in queue 4
+14200000 : events in queue 4
+14300000 : events in queue 4
+14400000 : events in queue 4
+14500000 : events in queue 4
+14600000 : events in queue 4
+14700000 : events in queue 4
+14800000 : events in queue 4
+14900000 : events in queue 4
+15000000 : events in queue 4
+15100000 : events in queue 4
+15200000 : events in queue 4
+15300000 : events in queue 4
+15400000 : events in queue 4
+15500000 : events in queue 4
+15600000 : events in queue 4
+15700000 : events in queue 4
+15800000 : events in queue 4
+15900000 : events in queue 4
+16000000 : events in queue 4
+16100000 : events in queue 4
+16200000 : events in queue 4
+16300000 : events in queue 4
+16400000 : events in queue 4
+16500000 : events in queue 4
+16600000 : events in queue 4
+16700000 : events in queue 4
+16800000 : events in queue 4
+16900000 : events in queue 4
+17000000 : events in queue 4
+17100000 : events in queue 4
+17200000 : events in queue 4
+17300000 : events in queue 4
+17400000 : events in queue 4
+17500000 : events in queue 4
+17600000 : events in queue 4
+17700000 : events in queue 4
+17800000 : events in queue 4
+17900000 : events in queue 4
+18000000 : events in queue 4
+18100000 : events in queue 4
+18200000 : events in queue 4
+18300000 : events in queue 4
+18400000 : events in queue 4
+18500000 : events in queue 4
+18600000 : events in queue 4
+18700000 : events in queue 4
+18800000 : events in queue 4
+18900000 : events in queue 4
+19000000 : events in queue 4
+Number of refreshes: 2308
+19100000 : events in queue 3
+19200000 : events in queue 3
+19300000 : events in queue 3
+19400000 : events in queue 3
+19500000 : events in queue 3
+19600000 : events in queue 3
+19700000 : events in queue 3
+19800000 : events in queue 3
+19900000 : events in queue 3
+19900072 read callback 0x0 0b11111111 time taken (ns): 71
+19900072 read callback 0x1 0b11111111 time taken (ns): 21
+19900117 read callback 0x2 0b11111111 time taken (ns): 16
+19900167 read callback 0x3 0b11111111 time taken (ns): 16
+19900217 read callback 0x4 0b11111111 time taken (ns): 16
+19900267 read callback 0x5 0b11111111 time taken (ns): 16
+19900317 read callback 0x6 0b11111111 time taken (ns): 16
+19900367 read callback 0x7 0b11111111 time taken (ns): 16
+19900472 read callback 0x20 0b11111111 time taken (ns): 71
+19900472 read callback 0x21 0b11111111 time taken (ns): 21
+19900517 read callback 0x22 0b11111111 time taken (ns): 16
+19900567 read callback 0x23 0b11111111 time taken (ns): 16
+19900617 read callback 0x24 0b11111111 time taken (ns): 16
+19900667 read callback 0x25 0b11111111 time taken (ns): 16
+19900717 read callback 0x26 0b11111111 time taken (ns): 16
+19900767 read callback 0x27 0b11111111 time taken (ns): 16
+19900872 read callback 0x40 0b11111111 time taken (ns): 71
+19900872 read callback 0x41 0b11111111 time taken (ns): 21
+19900917 read callback 0x42 0b11111111 time taken (ns): 16
+19900967 read callback 0x43 0b11111111 time taken (ns): 16
+19901017 read callback 0x44 0b11111111 time taken (ns): 16
+19901067 read callback 0x45 0b11111111 time taken (ns): 16
+19901117 read callback 0x46 0b11111111 time taken (ns): 16
+19901167 read callback 0x47 0b11111111 time taken (ns): 16
+19901272 read callback 0x60 0b11111111 time taken (ns): 71
+19901272 read callback 0x61 0b11111111 time taken (ns): 21
+19901317 read callback 0x62 0b11111111 time taken (ns): 16
+19901367 read callback 0x63 0b11111111 time taken (ns): 16
+19901417 read callback 0x64 0b11111111 time taken (ns): 16
+19901467 read callback 0x65 0b11111111 time taken (ns): 16
+19901517 read callback 0x66 0b11111111 time taken (ns): 16
+19901567 read callback 0x67 0b11111111 time taken (ns): 16
+19901672 read callback 0x80 0b11111111 time taken (ns): 71
+19901672 read callback 0x81 0b11111111 time taken (ns): 21
+19901717 read callback 0x82 0b11111111 time taken (ns): 16
+19901767 read callback 0x83 0b11111111 time taken (ns): 16
+19901817 read callback 0x84 0b11111111 time taken (ns): 16
+19901867 read callback 0x85 0b11111111 time taken (ns): 16
+19901917 read callback 0x86 0b11111111 time taken (ns): 16
+19901967 read callback 0x87 0b11111111 time taken (ns): 16
+19902072 read callback 0xa0 0b11111111 time taken (ns): 71
+19902072 read callback 0xa1 0b11111111 time taken (ns): 21
+19902117 read callback 0xa2 0b11111111 time taken (ns): 16
+19902167 read callback 0xa3 0b11111111 time taken (ns): 16
+19902217 read callback 0xa4 0b11111111 time taken (ns): 16
+19902267 read callback 0xa5 0b11111111 time taken (ns): 16
+19902317 read callback 0xa6 0b11111111 time taken (ns): 16
+19902367 read callback 0xa7 0b11111111 time taken (ns): 16
+19902472 read callback 0xc0 0b11111111 time taken (ns): 71
+19902472 read callback 0xc1 0b11111111 time taken (ns): 21
+19902517 read callback 0xc2 0b11111111 time taken (ns): 16
+19902567 read callback 0xc3 0b11111111 time taken (ns): 16
+19902617 read callback 0xc4 0b11111111 time taken (ns): 16
+19902667 read callback 0xc5 0b11111111 time taken (ns): 16
+19902717 read callback 0xc6 0b11111111 time taken (ns): 16
+19902767 read callback 0xc7 0b11111111 time taken (ns): 16
+19902872 read callback 0xe0 0b11111111 time taken (ns): 71
+19902872 read callback 0xe1 0b11111111 time taken (ns): 21
+19902917 read callback 0xe2 0b11111111 time taken (ns): 16
+19902967 read callback 0xe3 0b11111111 time taken (ns): 16
+19903017 read callback 0xe4 0b11111111 time taken (ns): 16
+19903067 read callback 0xe5 0b11111111 time taken (ns): 16
+19903117 read callback 0xe6 0b11111111 time taken (ns): 16
+19903167 read callback 0xe7 0b11111111 time taken (ns): 16
+19903272 read callback 0x100 0b11111111 time taken (ns): 71
+19903272 read callback 0x101 0b11111111 time taken (ns): 21
+19903317 read callback 0x102 0b11111111 time taken (ns): 16
+19903367 read callback 0x103 0b11111111 time taken (ns): 16
+19903417 read callback 0x104 0b11111111 time taken (ns): 16
+19903467 read callback 0x105 0b11111111 time taken (ns): 16
+19903517 read callback 0x106 0b11111111 time taken (ns): 16
+19903567 read callback 0x107 0b11111111 time taken (ns): 16
+19903672 read callback 0x120 0b11111111 time taken (ns): 71
+19903672 read callback 0x121 0b11111111 time taken (ns): 21
+19903717 read callback 0x122 0b11111111 time taken (ns): 16
+19903767 read callback 0x123 0b11111111 time taken (ns): 16
+19903817 read callback 0x124 0b11111111 time taken (ns): 16
+19903867 read callback 0x125 0b11111111 time taken (ns): 16
+19903917 read callback 0x126 0b11111111 time taken (ns): 16
+19903967 read callback 0x127 0b11111111 time taken (ns): 16
+19904072 read callback 0x140 0b11111111 time taken (ns): 71
+19904072 read callback 0x141 0b11111111 time taken (ns): 21
+19904117 read callback 0x142 0b11111111 time taken (ns): 16
+19904167 read callback 0x143 0b11111111 time taken (ns): 16
+19904217 read callback 0x144 0b11111111 time taken (ns): 16
+19904267 read callback 0x145 0b11111111 time taken (ns): 16
+19904317 read callback 0x146 0b11111111 time taken (ns): 16
+19904367 read callback 0x147 0b11111111 time taken (ns): 16
+19904472 read callback 0x160 0b11111111 time taken (ns): 71
+19904472 read callback 0x161 0b11111111 time taken (ns): 21
+19904517 read callback 0x162 0b11111111 time taken (ns): 16
+19904567 read callback 0x163 0b11111111 time taken (ns): 16
+19904617 read callback 0x164 0b11111111 time taken (ns): 16
+19904667 read callback 0x165 0b11111111 time taken (ns): 16
+19904717 read callback 0x166 0b11111101 time taken (ns): 16
+19904767 read callback 0x167 0b11111111 time taken (ns): 16
+19904872 read callback 0x180 0b11111111 time taken (ns): 71
+19904872 read callback 0x181 0b11111111 time taken (ns): 21
+19904917 read callback 0x182 0b11111111 time taken (ns): 16
+19904967 read callback 0x183 0b11111111 time taken (ns): 16
+19905017 read callback 0x184 0b11111111 time taken (ns): 16
+19905067 read callback 0x185 0b11111111 time taken (ns): 16
+19905117 read callback 0x186 0b11111111 time taken (ns): 16
+19905167 read callback 0x187 0b11111111 time taken (ns): 16
+19905272 read callback 0x1a0 0b11111111 time taken (ns): 71
+19905272 read callback 0x1a1 0b11111111 time taken (ns): 21
+19905317 read callback 0x1a2 0b11111111 time taken (ns): 16
+19905367 read callback 0x1a3 0b11111111 time taken (ns): 16
+19905417 read callback 0x1a4 0b11111111 time taken (ns): 16
+19905467 read callback 0x1a5 0b11111111 time taken (ns): 16
+19905517 read callback 0x1a6 0b11111111 time taken (ns): 16
+19905567 read callback 0x1a7 0b11111111 time taken (ns): 16
+19905672 read callback 0x1c0 0b11111111 time taken (ns): 71
+19905672 read callback 0x1c1 0b11111111 time taken (ns): 21
+19905717 read callback 0x1c2 0b11111111 time taken (ns): 16
+19905767 read callback 0x1c3 0b11111111 time taken (ns): 16
+19905817 read callback 0x1c4 0b11111111 time taken (ns): 16
+19905867 read callback 0x1c5 0b11111111 time taken (ns): 16
+19905917 read callback 0x1c6 0b11111111 time taken (ns): 16
+19905967 read callback 0x1c7 0b11111111 time taken (ns): 16
+19906072 read callback 0x1e0 0b11111111 time taken (ns): 71
+19906072 read callback 0x1e1 0b11111111 time taken (ns): 21
+19906117 read callback 0x1e2 0b11111111 time taken (ns): 16
+19906167 read callback 0x1e3 0b11111111 time taken (ns): 16
+19906217 read callback 0x1e4 0b11111111 time taken (ns): 16
+19906267 read callback 0x1e5 0b11111111 time taken (ns): 16
+19906317 read callback 0x1e6 0b11111111 time taken (ns): 16
+19906367 read callback 0x1e7 0b11111111 time taken (ns): 16
+19906472 read callback 0x200 0b11111111 time taken (ns): 71
+19906472 read callback 0x201 0b11111111 time taken (ns): 21
+19906517 read callback 0x202 0b11111111 time taken (ns): 16
+19906567 read callback 0x203 0b11111111 time taken (ns): 16
+19906617 read callback 0x204 0b11111111 time taken (ns): 16
+19906667 read callback 0x205 0b11111111 time taken (ns): 16
+19906717 read callback 0x206 0b11111111 time taken (ns): 16
+19906767 read callback 0x207 0b11111111 time taken (ns): 16
+19906872 read callback 0x220 0b11111111 time taken (ns): 71
+19906872 read callback 0x221 0b11111111 time taken (ns): 21
+19906917 read callback 0x222 0b11111111 time taken (ns): 16
+19906967 read callback 0x223 0b11111111 time taken (ns): 16
+19907017 read callback 0x224 0b11111111 time taken (ns): 16
+19907067 read callback 0x225 0b11111111 time taken (ns): 16
+19907117 read callback 0x226 0b11111111 time taken (ns): 16
+19907167 read callback 0x227 0b11111111 time taken (ns): 16
+19907272 read callback 0x240 0b11111111 time taken (ns): 71
+19907272 read callback 0x241 0b11111111 time taken (ns): 21
+19907317 read callback 0x242 0b11111111 time taken (ns): 16
+19907367 read callback 0x243 0b11111111 time taken (ns): 16
+19907417 read callback 0x244 0b11111111 time taken (ns): 16
+19907467 read callback 0x245 0b11111111 time taken (ns): 16
+19907517 read callback 0x246 0b11111111 time taken (ns): 16
+19907567 read callback 0x247 0b11111111 time taken (ns): 16
+19907672 read callback 0x260 0b11111111 time taken (ns): 71
+19907672 read callback 0x261 0b11111111 time taken (ns): 21
+19907717 read callback 0x262 0b11111111 time taken (ns): 16
+19907767 read callback 0x263 0b11111111 time taken (ns): 16
+19907817 read callback 0x264 0b11111111 time taken (ns): 16
+19907867 read callback 0x265 0b11111111 time taken (ns): 16
+19907917 read callback 0x266 0b11111111 time taken (ns): 16
+19907967 read callback 0x267 0b11111111 time taken (ns): 16
+19908072 read callback 0x280 0b11111111 time taken (ns): 71
+19908072 read callback 0x281 0b11111111 time taken (ns): 21
+19908117 read callback 0x282 0b11111111 time taken (ns): 16
+19908167 read callback 0x283 0b11111111 time taken (ns): 16
+19908217 read callback 0x284 0b11111111 time taken (ns): 16
+19908267 read callback 0x285 0b11111111 time taken (ns): 16
+19908317 read callback 0x286 0b11111111 time taken (ns): 16
+19908367 read callback 0x287 0b11111111 time taken (ns): 16
