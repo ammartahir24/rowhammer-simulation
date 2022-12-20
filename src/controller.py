@@ -119,6 +119,10 @@ class MemoryController():
 		self.bank_status = ["open" for _ in range(self.configs.banks)]
 		self.clock.schedule(self.operate, None, run_time=1)
 		self.last_refresh_row = 0
+		self.ptrr_activations = {}
+		for b in range(self.configs.banks):
+			for r in range(self.configs.rows):
+				self.ptrr_activations[(b,r)] = 0
 		print("MemoryController __init__")
 
 	def row_activate_cb(self, bank, row):
@@ -126,12 +130,20 @@ class MemoryController():
 		# print(self.bank_count)
 		self.bank_status[bank] = "open"
 		if self.configs.mc_ptrr:
-			time_1 = self.configs.activation_time + self.configs.read_time + self.configs.precharge_time
-			max_activations = self.configs.refresh_freq / time_1
-			if random.randrange(int(max_activations / self.configs.ptrr_mac)) != 0:
-				if random.randrange(1000) < 10:
-					self.extra_refreshes += [(row-i-1, bank) for i in range(self.configs.ptrr_ref_rows) if row-i-1>=0]
-					self.extra_refreshes += [(row+i+1, bank) for i in range(self.configs.ptrr_ref_rows) if row+i+1<self.configs.rows]
+			options = [(bank, row-i-1) for i in range(self.configs.ptrr_ref_rows) if row-i-1>=0]
+			options += [(bank, row+i+1) for i in range(self.configs.ptrr_ref_rows) if row+i+1<self.configs.rows]
+			for b,r in options:
+				self.ptrr_activations[(b, r)] += 1
+				if self.ptrr_activations[(b,r)] >= self.configs.ptrr_mac:
+					self.extra_refreshes.append((r,b))
+
+			# time_1 = self.configs.activation_time + self.configs.read_time + self.configs.precharge_time
+			# max_activations = self.configs.refresh_freq / time_1
+			# if random.randrange(int(max_activations / self.configs.ptrr_mac)) != 0:
+			# 	if random.randrange(1000) < 20:
+			# 		options = [(row-i-1, bank) for i in range(self.configs.ptrr_ref_rows) if row-i-1>=0]
+			# 		options += [(row+i+1, bank) for i in range(self.configs.ptrr_ref_rows) if row+i+1<self.configs.rows]
+			# 		self.extra_refreshes += [random.choice(options)]
 
 		if self.configs.para:
 			if random.randrange(1000) < 2:
@@ -225,6 +237,7 @@ class MemoryController():
 		# refreshing done here by reading all bank's row
 		for ref in self.extra_refreshes:
 			commands = CommandSequence(self.clock.get_clock(), callback=None)
+			self.ptrr_activations[(ref[1], ref[0])] = 0
 			commands.refresh_sequence(ref[1], ref[0], 0)
 			self.commands_queue.insert(0,commands)
 		self.extra_refreshes = []
@@ -233,6 +246,7 @@ class MemoryController():
 			for i in range(self.configs.banks):
 				commands = CommandSequence(self.clock.get_clock(), callback=None)
 				commands.refresh_sequence(i, self.last_refresh_row, 0)
+				self.ptrr_activations[(i, self.last_refresh_row)] = 0
 				self.commands_queue.insert(0,commands)
 			self.last_refresh_row = (self.last_refresh_row + 1) % self.configs.rows
 		# schedule commands

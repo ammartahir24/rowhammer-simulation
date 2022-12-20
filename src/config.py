@@ -65,10 +65,10 @@ b = 2.5
 
 """ defense configurations """
 refresh_freq = 6400000
-mc_ptrr = False
+mc_ptrr = True
 ptrr_mac = 15000
 ptrr_ref_rows = 2
 
 
-para = True
+para = False
 para_ref_rows = 3
