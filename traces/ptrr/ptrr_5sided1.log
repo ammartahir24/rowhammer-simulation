@@ -182,14 +182,14 @@ Start
 900000 : events in queue 5
 1000000 : events in queue 5
 1100000 : events in queue 5
-1200000 : events in queue 4
-1300000 : events in queue 4
+1200000 : events in queue 5
+1300000 : events in queue 5
 1400000 : events in queue 5
 1500000 : events in queue 5
-1600000 : events in queue 4
+1600000 : events in queue 5
 1700000 : events in queue 5
 1800000 : events in queue 5
-1900000 : events in queue 5
+1900000 : events in queue 4
 2000000 : events in queue 5
 2100000 : events in queue 5
 2200000 : events in queue 5
@@ -207,7 +207,7 @@ Start
 3400000 : events in queue 5
 3500000 : events in queue 5
 3600000 : events in queue 5
-3700000 : events in queue 5
+3700000 : events in queue 4
 3800000 : events in queue 5
 3900000 : events in queue 5
 4000000 : events in queue 5
@@ -219,7 +219,7 @@ Start
 4600000 : events in queue 5
 4700000 : events in queue 5
 4800000 : events in queue 5
-4900000 : events in queue 4
+4900000 : events in queue 5
 5000000 : events in queue 5
 5100000 : events in queue 5
 5200000 : events in queue 5
@@ -229,21 +229,21 @@ Start
 5600000 : events in queue 5
 5700000 : events in queue 5
 5800000 : events in queue 5
-5900000 : events in queue 5
+5900000 : events in queue 4
 6000000 : events in queue 5
 6100000 : events in queue 5
 6200000 : events in queue 5
 6300000 : events in queue 5
-6400000 : events in queue 5
+6400000 : events in queue 4
 6500000 : events in queue 5
 6600000 : events in queue 5
 6700000 : events in queue 5
 6800000 : events in queue 5
 6900000 : events in queue 5
 7000000 : events in queue 5
-7100000 : events in queue 5
+7100000 : events in queue 4
 7200000 : events in queue 5
-7300000 : events in queue 5
+7300000 : events in queue 4
 7400000 : events in queue 5
 7500000 : events in queue 5
 7600000 : events in queue 5
@@ -267,11 +267,11 @@ Start
 9400000 : events in queue 5
 9500000 : events in queue 5
 9600000 : events in queue 5
-9700000 : events in queue 5
+9700000 : events in queue 4
 9800000 : events in queue 5
 9900000 : events in queue 5
 10000000 : events in queue 5
-10100000 : events in queue 5
+10100000 : events in queue 4
 10200000 : events in queue 5
 10300000 : events in queue 5
 10400000 : events in queue 5
@@ -293,21 +293,21 @@ Start
 12000000 : events in queue 5
 12100000 : events in queue 5
 12200000 : events in queue 5
-12300000 : events in queue 5
-12400000 : events in queue 4
+12300000 : events in queue 4
+12400000 : events in queue 5
 12500000 : events in queue 5
 12600000 : events in queue 5
 12700000 : events in queue 5
-12800000 : events in queue 5
+12800000 : events in queue 4
 12900000 : events in queue 5
 13000000 : events in queue 5
 13100000 : events in queue 5
 13200000 : events in queue 5
 13300000 : events in queue 5
 13400000 : events in queue 5
-13500000 : events in queue 5
+13500000 : events in queue 4
 13600000 : events in queue 5
-13700000 : events in queue 5
+13700000 : events in queue 4
 13800000 : events in queue 5
 13900000 : events in queue 5
 14000000 : events in queue 5
@@ -315,8 +315,8 @@ Start
 14200000 : events in queue 5
 14300000 : events in queue 5
 14400000 : events in queue 5
-14500000 : events in queue 4
-14600000 : events in queue 4
+14500000 : events in queue 5
+14600000 : events in queue 5
 14700000 : events in queue 5
 14800000 : events in queue 5
 14900000 : events in queue 5
@@ -331,18 +331,18 @@ Start
 15800000 : events in queue 5
 15900000 : events in queue 5
 16000000 : events in queue 5
-16100000 : events in queue 5
+16100000 : events in queue 4
 16200000 : events in queue 5
 16300000 : events in queue 5
 16400000 : events in queue 5
-16500000 : events in queue 5
+16500000 : events in queue 4
 16600000 : events in queue 5
 16700000 : events in queue 5
 16800000 : events in queue 5
 16900000 : events in queue 5
 17000000 : events in queue 5
 17100000 : events in queue 5
-17200000 : events in queue 4
+17200000 : events in queue 5
 17300000 : events in queue 5
 17400000 : events in queue 5
 17500000 : events in queue 5
@@ -350,11 +350,11 @@ Start
 17700000 : events in queue 5
 17800000 : events in queue 5
 17900000 : events in queue 5
-18000000 : events in queue 4
+18000000 : events in queue 5
 18100000 : events in queue 5
 18200000 : events in queue 5
 18300000 : events in queue 5
-18400000 : events in queue 5
+18400000 : events in queue 4
 18500000 : events in queue 4
 18600000 : events in queue 4
 18700000 : events in queue 4
@@ -411,7 +411,7 @@ Start
 23800000 : events in queue 4
 23900000 : events in queue 4
 24000000 : events in queue 4
-Number of refreshes: 9314
+Number of refreshes: 993
 24100000 : events in queue 3
 24200000 : events in queue 3
 24300000 : events in queue 3
@@ -440,7 +440,7 @@ Number of refreshes: 9314
 24900872 read callback 0x40 0b11111111 time taken (ns): 71
 24900872 read callback 0x41 0b11111111 time taken (ns): 21
 24900917 read callback 0x42 0b11111111 time taken (ns): 16
-24900967 read callback 0x43 0b11111111 time taken (ns): 16
+24900967 read callback 0x43 0b11101111 time taken (ns): 16
 24901017 read callback 0x44 0b11111111 time taken (ns): 16
 24901067 read callback 0x45 0b11111111 time taken (ns): 16
 24901117 read callback 0x46 0b11111111 time taken (ns): 16
@@ -457,10 +457,10 @@ Number of refreshes: 9314
 24901672 read callback 0x81 0b11111111 time taken (ns): 21
 24901717 read callback 0x82 0b11111111 time taken (ns): 16
 24901767 read callback 0x83 0b11111111 time taken (ns): 16
-24901817 read callback 0x84 0b11111111 time taken (ns): 16
+24901817 read callback 0x84 0b11111011 time taken (ns): 16
 24901867 read callback 0x85 0b11111111 time taken (ns): 16
 24901917 read callback 0x86 0b11111111 time taken (ns): 16
-24901967 read callback 0x87 0b11110111 time taken (ns): 16
+24901967 read callback 0x87 0b11111111 time taken (ns): 16
 24902072 read callback 0xa0 0b11111111 time taken (ns): 71
 24902072 read callback 0xa1 0b11111111 time taken (ns): 21
 24902117 read callback 0xa2 0b11111111 time taken (ns): 16
@@ -472,11 +472,11 @@ Number of refreshes: 9314
 24902472 read callback 0xc0 0b11111111 time taken (ns): 71
 24902472 read callback 0xc1 0b11111111 time taken (ns): 21
 24902517 read callback 0xc2 0b11111111 time taken (ns): 16
-24902567 read callback 0xc3 0b11111111 time taken (ns): 16
+24902567 read callback 0xc3 0b11110111 time taken (ns): 16
 24902617 read callback 0xc4 0b11111111 time taken (ns): 16
-24902667 read callback 0xc5 0b11111111 time taken (ns): 16
+24902667 read callback 0xc5 0b11101110 time taken (ns): 16
 24902717 read callback 0xc6 0b11111111 time taken (ns): 16
-24902767 read callback 0xc7 0b11111111 time taken (ns): 16
+24902767 read callback 0xc7 0b11110111 time taken (ns): 16
 24902872 read callback 0xe0 0b11111111 time taken (ns): 71
 24902872 read callback 0xe1 0b11111111 time taken (ns): 21
 24902917 read callback 0xe2 0b11111111 time taken (ns): 16
@@ -556,7 +556,7 @@ Number of refreshes: 9314
 24906617 read callback 0x204 0b11111111 time taken (ns): 16
 24906667 read callback 0x205 0b11111111 time taken (ns): 16
 24906717 read callback 0x206 0b11111111 time taken (ns): 16
-24906767 read callback 0x207 0b11111111 time taken (ns): 16
+24906767 read callback 0x207 0b11101111 time taken (ns): 16
 24906872 read callback 0x220 0b11111111 time taken (ns): 71
 24906872 read callback 0x221 0b11111111 time taken (ns): 21
 24906917 read callback 0x222 0b11111111 time taken (ns): 16
